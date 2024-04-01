@@ -1,0 +1,19 @@
+package com.antonio.agendajetpackcompose.ui.model
+
+import androidx.annotation.DrawableRes
+
+data class Contactos(
+    var id:Int,
+    var nombre:String,
+    var apellidos:String,
+    var Direccion:String,
+    var codigoPostal:String,
+    var ciudad:String,
+    var Provincia:String,
+    var telefonoFijo:String,
+    var telefonoMovil:String,
+    var email:String,
+    var cumpleaños:String,
+    var observaciones:String,
+    @DrawableRes var foto:Int,
+)
