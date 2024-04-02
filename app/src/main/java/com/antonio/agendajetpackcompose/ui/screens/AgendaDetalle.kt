@@ -13,30 +13,86 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.AppBarDefaults
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.antonio.agendajetpackcompose.ui.model.Contactos
+import com.antonio.agendajetpackcompose.ui.navigation.Screens
 import com.antonio.agendajetpackcompose.ui.viewmodel.AgendaViewModel
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AgendaDetalle(navController: NavHostController, viewModel: AgendaViewModel) {
 
+    Scaffold(
+        topBar = {
+            MyTopBar2(navController,viewModel)
+        },
+        content = {padding ->
+            ContenidoDetalle(navController, viewModel)
+        }
+    )
 
-    ContenidoDetalle(navController, viewModel)
+
+
+
+}
+
+@Composable
+fun MyTopBar2(navController: NavHostController,
+              viewModel: AgendaViewModel,
+              backgroundColor: Color = Color(10, 48, 100),//azul
+              contentColor: Color = Color(232, 18, 36),//rojo
+              elevation: Dp = AppBarDefaults.TopAppBarElevation
+              ) {
+    val context= LocalContext.current
+
+    val colorRojo=Color(232, 18, 36)
+    TopAppBar(
+
+        navigationIcon = {
+            IconButton(onClick = {navController.navigate(route = Screens.Agenda.route)}) {
+                Icon(imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "Ir hacia atras",
+                    tint = colorRojo,
+                    modifier = Modifier.size(60.dp)
+                )
+            }
+
+
+
+        },
+        title = { Text("Agenda F.C. Barcelona", color = colorRojo, fontWeight = FontWeight.Bold, fontSize = 20.sp) },
+
+        backgroundColor = backgroundColor,
+        contentColor = contentColor,
+        elevation = elevation
+
+    )
 
 
 }
@@ -45,15 +101,19 @@ fun AgendaDetalle(navController: NavHostController, viewModel: AgendaViewModel) 
 fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewModel) {
     val colorRojo = Color(232, 18, 36)
     val colorAzul = Color(10, 48, 100)
+    val colorAmarillo = Color(235, 203, 73)
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorAzul)
+            .background(Color.Black)
     ) {
         Card(
-            border = BorderStroke(2.dp, Color.Red), modifier = Modifier
+            border = BorderStroke(2.dp, colorRojo),
+            colors= CardDefaults.cardColors(containerColor = colorAmarillo),
+            modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp, vertical = 24.dp)
+
+                .padding(start = 16.dp, end=16.dp,top = 75.dp, bottom = 24.dp)
         ) {
             Row(
                 Modifier
@@ -128,7 +188,8 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                 )
                 Text(
                     text = viewModel.contacto.Direccion,
-                    modifier = Modifier.padding(top=10.dp)
+                    modifier = Modifier.padding(top=10.dp),
+                    fontSize = 16.sp
                 )
             }
 
@@ -138,7 +199,8 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                     fontWeight = FontWeight.Bold)
                 Text(
                     text = viewModel.contacto.codigoPostal,
-                    modifier = Modifier.padding(top=10.dp)
+                    modifier = Modifier.padding(top=10.dp),
+                    fontSize = 16.sp
                 )
 
                 Text(text = "Ciudad: ",
@@ -146,7 +208,8 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                     fontWeight = FontWeight.Bold)
                 Text(
                     text = viewModel.contacto.ciudad,
-                    modifier = Modifier.padding(top=10.dp)
+                    modifier = Modifier.padding(top=10.dp),
+                    fontSize = 16.sp
                 )
 
 
@@ -157,7 +220,8 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                     fontWeight = FontWeight.Bold)
                 Text(
                     text = viewModel.contacto.provincia,
-                    modifier = Modifier.padding(top=10.dp)
+                    modifier = Modifier.padding(top=10.dp),
+                    fontSize = 16.sp
                 )
             }
 
@@ -167,7 +231,8 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                     fontWeight = FontWeight.Bold)
                 Text(
                     text = viewModel.contacto.email,
-                    modifier = Modifier.padding(top=10.dp)
+                    modifier = Modifier.padding(top=10.dp),
+                    fontSize = 16.sp
                 )
             }
 
@@ -177,12 +242,13 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                     fontWeight = FontWeight.Bold)
                 Text(
                     text = viewModel.contacto.cumpleaños,
-                    modifier = Modifier.padding(top=10.dp)
+                    modifier = Modifier.padding(top=10.dp),
+                    fontSize = 16.sp
                 )
             }
 
             Card(
-                border = BorderStroke(2.dp, Color.Red), modifier = Modifier
+                border = BorderStroke(2.dp, colorAzul), modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 16.dp, vertical = 24.dp)
             ) {
@@ -192,7 +258,7 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                         fontWeight = FontWeight.Bold)
                     Text(
                         text = viewModel.contacto.observaciones,
-                        modifier = Modifier.padding(start=10.dp,top=10.dp)
+                        modifier = Modifier.padding(10.dp)
                     )
                 }
 
