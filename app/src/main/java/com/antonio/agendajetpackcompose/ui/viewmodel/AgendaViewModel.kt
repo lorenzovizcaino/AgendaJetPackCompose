@@ -1,5 +1,8 @@
 package com.antonio.agendajetpackcompose.ui.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.antonio.agendajetpackcompose.R
 import com.antonio.agendajetpackcompose.ui.model.Contactos
 
@@ -45,6 +48,19 @@ class AgendaViewModel {
             "18 Octubre",
             "Dotado física y técnicamente, Alejandro Balde es un lateral explosivo y rápido con capacidad para incorporarse al ataque",
             R.drawable.alejandro_balde),
+        Contactos(4,
+            "Ronald",
+            "Araujo",
+            "Avinguda Diagonal 214 Atico B",
+            "08005",
+            "Barcelona",
+            "Barcelona",
+            "934543457",
+            "677768903",
+            "ronaldaraujo@gmail.com",
+            "7 Marzo",
+            "Central uruguayo con proyección, con buena salida de balón y dominio del juego aéreo",
+            R.drawable.ronald_araujo),
         Contactos(5,
             "Iñigo",
             "Martinez",
@@ -58,8 +74,56 @@ class AgendaViewModel {
             "17 Mayo",
             "Después de una década ininterrumpida en la élite del fútbol español, Iñigo Martinez ha demostrado ser un central con una gran salida de balón y una importante capacidad goleadora pese a su posición",
             R.drawable.inigo_martinez),
+        Contactos(6,
+            "Pablo",
+            "Paez Gavira",
+            "Passeig del Born 6 4ºA",
+            "08001 ",
+            "Barcelona",
+            "Barcelona",
+            "934564745",
+            "677787852",
+            "gavibarca@gmail.com",
+            "5 Agosto",
+            "Centrocampista con una gran calidad técnica y visión de juego, con carácter e intensidad, que le convierten en un jugador importante en el medio del campo",
+            R.drawable.gavi),
+        Contactos(7,
+            "Ferran",
+            "Torres",
+            "Carrer Petritxol 56",
+            "08012 ",
+            "Barcelona",
+            "Barcelona",
+            "934523445",
+            "677787458",
+            "ferrantorres@gmail.com",
+            "29 Febrero",
+            "Puede ocupar cualquier posición ofensiva, exhibiendo velocidad, verticalidad, calidad e inteligencia",
+            R.drawable.ferran_torres),
+        Contactos(7,
+            "Pedro",
+            "Gonzalez Lopez",
+            "Carrer Petritxol 76",
+            "08012 ",
+            "Barcelona",
+            "Barcelona",
+            "934578451",
+            "677782365",
+            "pedribarcelona@gmail.com",
+            "25 Noviembre",
+            "Gusto por el fútbol combinativo, el joven futbolista tiene una excelente conducción del balón y sus milimétricos pases rompen líneas defensivas",
+            R.drawable.pedri),
 
     )
+    private set
+
+    var contacto by mutableStateOf(Contactos(0,"","","","","","","","","","","",0))
+        private set
+
+
+    fun setaContacto(contacto:Contactos){//se le llama setaContacto por ya existir otro metodo setContacto
+        this.contacto=contacto
+    }
 
 
     fun getListaContactos():MutableList<Contactos>{

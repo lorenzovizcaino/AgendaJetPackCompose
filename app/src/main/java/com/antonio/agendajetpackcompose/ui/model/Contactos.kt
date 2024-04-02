@@ -9,7 +9,7 @@ data class Contactos(
     var Direccion:String,
     var codigoPostal:String,
     var ciudad:String,
-    var Provincia:String,
+    var provincia:String,
     var telefonoFijo:String,
     var telefonoMovil:String,
     var email:String,
