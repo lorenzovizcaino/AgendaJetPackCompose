@@ -1,5 +1,6 @@
 package com.antonio.agendajetpackcompose.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -82,6 +83,8 @@ fun MyBottonBar(navController: NavHostController,
                 ) {
 
     val colorRojo=Color(232, 18, 36)
+    var context= LocalContext.current
+
     BottomAppBar(content = {
         Row(modifier=Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
             IconButton(onClick = {
@@ -93,8 +96,13 @@ fun MyBottonBar(navController: NavHostController,
             }
 
             IconButton(onClick = {
-                viewModel.IrAtras()
-                navController.navigate(route = Screens.AgendaDetalle.route)
+                if(viewModel.contacto==viewModel.lista.first()){
+                    Toast.makeText(context,"No hay mas registros", Toast.LENGTH_SHORT).show()
+                }else{
+                    viewModel.IrAtras()
+                    navController.navigate(route = Screens.AgendaDetalle.route)
+                }
+
 
              }) {
                 Icon(imageVector =Icons.Filled.ArrowLeft , contentDescription ="", tint = colorRojo,
@@ -103,8 +111,13 @@ fun MyBottonBar(navController: NavHostController,
             }
 
             IconButton(onClick = {
-                viewModel.IrDelante()
-                navController.navigate(route = Screens.AgendaDetalle.route)
+                if(viewModel.contacto==viewModel.lista.last()){
+                    Toast.makeText(context,"No hay mas registros", Toast.LENGTH_SHORT).show()
+                }else{
+                    viewModel.IrDelante()
+                    navController.navigate(route = Screens.AgendaDetalle.route)
+                }
+
             }) {
                 Icon(imageVector =Icons.Filled.ArrowRight , contentDescription ="", tint = colorRojo,
                     modifier = Modifier.size(55.dp) )

@@ -5,6 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.antonio.agendajetpackcompose.R
 import com.antonio.agendajetpackcompose.ui.model.Contactos
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 
 class AgendaViewModel {
 
@@ -169,5 +173,24 @@ class AgendaViewModel {
             contacto=lista[indice+1]
         }
     }
+
+    // Función para guardar una lista de objetos en un archivo de texto
+    fun guardarObjetosEnArchivo(lista: List<Any>, nombreArchivo: String) {
+        ObjectOutputStream(FileOutputStream(nombreArchivo)).use {
+            it.writeObject(lista)
+        }
+    }
+
+    // Función para leer una lista de objetos desde un archivo de texto
+    fun leerObjetosDesdeArchivo(nombreArchivo: String): List<Any> {
+        return ObjectInputStream(FileInputStream(nombreArchivo)).use {
+            it.readObject() as List<Any>
+        }
+    }
+
+
+
+
+
 
 }
