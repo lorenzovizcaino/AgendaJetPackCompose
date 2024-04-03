@@ -111,7 +111,7 @@ class AgendaViewModel {
             "677782365",
             "pedribarcelona@gmail.com",
             "25 Noviembre",
-            "Gusto por el fútbol combinativo, el joven futbolista tiene una excelente conducción del balón y sus milimétricos pases rompen líneas defensivas.",
+            "Gusto por el fútbol combinativo, el joven futbolista tiene una excelente conducción del balon y sus milimétricos pases rompen líneas defensivas.",
             R.drawable.pedri),
 
     )
