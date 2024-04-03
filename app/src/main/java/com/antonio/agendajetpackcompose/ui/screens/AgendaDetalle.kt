@@ -14,12 +14,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.AppBarDefaults
+import androidx.compose.material.BottomAppBar
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowLeft
+import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.FastRewind
 import androidx.compose.material.icons.filled.PhoneAndroid
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.SkipNext
+import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
@@ -54,10 +61,70 @@ fun AgendaDetalle(navController: NavHostController, viewModel: AgendaViewModel) 
         },
         content = {padding ->
             ContenidoDetalle(navController, viewModel)
+        },
+        bottomBar = {
+            MyBottonBar(navController,viewModel)
         }
+
     )
 
 
+
+
+}
+
+@Composable
+fun MyBottonBar(navController: NavHostController,
+                viewModel: AgendaViewModel,
+                backgroundColor: Color = Color(10, 48, 100),//azul
+                contentColor: Color = Color(232, 18, 36),//rojo
+                elevation: Dp = AppBarDefaults.BottomAppBarElevation
+                ) {
+
+    val colorRojo=Color(232, 18, 36)
+    BottomAppBar(content = {
+        Row(modifier=Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
+            IconButton(onClick = {
+                viewModel.IrInicio()
+                navController.navigate(route = Screens.AgendaDetalle.route)
+
+            }) {
+                Icon(imageVector =Icons.Filled.SkipPrevious , contentDescription ="", tint = colorRojo )
+            }
+
+            IconButton(onClick = {
+                viewModel.IrAtras()
+                navController.navigate(route = Screens.AgendaDetalle.route)
+
+             }) {
+                Icon(imageVector =Icons.Filled.ArrowLeft , contentDescription ="", tint = colorRojo,
+                    modifier = Modifier.size(55.dp)
+                )
+            }
+
+            IconButton(onClick = {
+                viewModel.IrDelante()
+                navController.navigate(route = Screens.AgendaDetalle.route)
+            }) {
+                Icon(imageVector =Icons.Filled.ArrowRight , contentDescription ="", tint = colorRojo,
+                    modifier = Modifier.size(55.dp) )
+            }
+
+            IconButton(onClick = {
+                viewModel.IrFinal()
+                navController.navigate(route = Screens.AgendaDetalle.route)
+            }) {
+                Icon(imageVector =Icons.Filled.SkipNext , contentDescription ="", tint = colorRojo )
+            }
+        }
+
+
+
+    },
+        backgroundColor = backgroundColor,
+        contentColor = contentColor,
+        elevation = elevation
+    )
 
 
 }
@@ -113,7 +180,7 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
             modifier = Modifier
                 .fillMaxSize()
 
-                .padding(start = 16.dp, end=16.dp,top = 75.dp, bottom = 24.dp)
+                .padding(vertical = 75.dp, horizontal = 16.dp)
         ) {
             Row(
                 Modifier

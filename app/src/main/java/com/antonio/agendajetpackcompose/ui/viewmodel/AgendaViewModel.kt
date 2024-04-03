@@ -130,4 +130,44 @@ class AgendaViewModel {
         return lista
     }
 
+    fun IrInicio() {
+        contacto=lista.first()
+    }
+
+    fun IrFinal() {
+        contacto=lista.last()
+    }
+
+    fun IrDelante() {
+        var indice=0
+        lista.forEach { item ->
+            if (item == contacto) {
+                indice=lista.indexOf(item)+1
+
+            }
+
+        }
+        if(indice<lista.size){
+            contacto=lista[indice]
+        }else{
+            contacto=lista[indice-1]
+        }
+    }
+
+    fun IrAtras() {
+        var indice=0
+        lista.forEach { item ->
+            if (item == contacto) {
+                indice=lista.indexOf(item)-1
+
+            }
+
+        }
+        if(indice>=0){
+            contacto=lista[indice]
+        }else{
+            contacto=lista[indice+1]
+        }
+    }
+
 }
