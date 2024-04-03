@@ -124,6 +124,51 @@ class AgendaViewModel {
     var contacto by mutableStateOf(Contactos(0,"","","","","","","","","","","",0))
         private set
 
+    var nombre by mutableStateOf("")
+        private set
+    var apellidos by mutableStateOf("")
+        private set
+
+    var direccion by mutableStateOf("")
+        private set
+
+    var codigoPostal by mutableStateOf("")
+        private set
+
+    var ciudad by mutableStateOf("")
+        private set
+
+    var provincia by mutableStateOf("")
+        private set
+
+    var telefonoFijo by mutableStateOf("")
+        private set
+
+    var telefonoMovil by mutableStateOf("")
+        private set
+
+    var email by mutableStateOf("")
+        private set
+
+    var cumpleaños by mutableStateOf("")
+        private set
+
+    var observaciones by mutableStateOf("")
+        private set
+
+    var foto by mutableStateOf(0)
+        private set
+
+    fun getNombre(nombre:String){
+
+    }
+
+
+
+
+
+
+
 
     fun setaContacto(contacto:Contactos){//se le llama setaContacto por ya existir otro metodo setContacto
         this.contacto=contacto

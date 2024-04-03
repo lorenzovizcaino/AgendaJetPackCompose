@@ -100,7 +100,7 @@ fun MyTopBar(navController: NavHostController,
         actions = {
 
             IconButton(onClick = {
-                navController.navigate(route=Screens.AgendaDetalle.route)
+                navController.navigate(route=Screens.AgendaAnhadirContacto.route)
 
             }) {
                 Icon(imageVector = Icons.Filled.Add,
