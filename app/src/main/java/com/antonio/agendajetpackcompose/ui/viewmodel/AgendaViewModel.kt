@@ -11,11 +11,6 @@ import androidx.core.graphics.drawable.toBitmap
 import com.antonio.agendajetpackcompose.R
 import com.antonio.agendajetpackcompose.ui.model.Contactos
 import com.antonio.agendajetpackcompose.ui.model.ContactosFinales
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromJsonElement
-import kotlinx.serialization.json.decodeFromStream
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -188,15 +183,16 @@ class AgendaViewModel {
     var foto by mutableStateOf(0)
         private set
 
-    var archivoJSon=File("")
+
 
     fun getNombre(nombre: String) {
 
     }
 
     fun guardarListaEnFichero(context: Context) {
-
+        var contador=0
         lista.forEach { item ->
+            contador++
 
             var fotoByteArrays: ByteArray
             fotoByteArrays = obtenerBytesDeDrawable(context, item.foto)
@@ -216,14 +212,33 @@ class AgendaViewModel {
                 fotoByteArrays
             )
 
-            // Serializar el objeto a JSON
-            val jsonString = Json.encodeToString(contactoFinal)
+//            // Serializar el objeto a JSON
+//            val jsonString = Json.encodeToString(contactoFinal)
+//
+//            // Guardar el JSON en un archivo
+//            archivoJSon = File(context.filesDir,"contactos.json")
+//            archivoJSon.writeText(jsonString)
+//            println(contador)
 
-            // Guardar el JSON en un archivo
-            archivoJSon = File(context.filesDir,"contactos.json")
-            archivoJSon.writeText(jsonString)
+            var archivo = File(context.filesDir,"contactos.dat")
+            // Serializar objeto
+            serializarObjeto(contactoFinal, archivo)
+            println(contador)
+
+
+
+
         }
     }
+
+    fun serializarObjeto(objeto: Any, archivo: File) {
+        ObjectOutputStream(FileOutputStream(archivo)).use { it.writeObject(objeto) }
+    }
+
+    fun deserializarObjeto(archivo: File): Any? {
+        return ObjectInputStream(FileInputStream(archivo)).use { it.readObject() }
+    }
+
 
     private fun obtenerBytesDeDrawable(context: Context, @DrawableRes foto: Int): ByteArray {
         val drawable = ContextCompat.getDrawable(context, foto)
@@ -237,17 +252,26 @@ class AgendaViewModel {
         return stream.toByteArray() // Convertir el flujo de salida en un array de bytes
     }
 
-   fun leerContactosArchivo(){
+   fun leerContactosArchivo(context: Context) {
 //        // Leer el JSON desde el archivo y deserializarlo
 //        val jsonLeido = archivoJSon.readText()
 //        val contactosDeserializados = Json.decodeFromString<ContactosFinales>(jsonLeido)
 //        println(contactosDeserializados.nombre)
+//con line
+//        archivoJSon.forEachLine { linea->
+//            val contactosFinales=Json.decodeFromString<ContactosFinales>(linea)
+//            println(contactosFinales.nombre)
+//            println(contactosFinales.apellidos)
+//        }
+       var archivo = File(context.filesDir,"contactos.dat")
+       val objetoDeserializado = deserializarObjeto(archivo)
+       if (objetoDeserializado is ContactosFinales) {
+           println("Nombre: ${objetoDeserializado.nombre}")
+           println("Edad: ${objetoDeserializado.apellidos}")
+       }
 
-        archivoJSon.forEachLine { linea->
-            val contactosFinales=Json.decodeFromString<ContactosFinales>(linea)
-            println(contactosFinales.nombre)
-            println(contactosFinales.apellidos)
-        }
+
+
     }
 
 
