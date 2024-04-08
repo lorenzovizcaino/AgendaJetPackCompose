@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("plugin.serialization").version("1.6.21") /*esta linea la añadi cuando me dedia que ContactosFinales no era Serializable y si que tenia el @Serializable*/
 }
 
 android {
@@ -82,6 +83,9 @@ dependencies {
 
     /* Librería para tener más iconos */
     implementation ("androidx.compose.material:material-icons-extended:1.6.2")
+
+    /* dependencias para el uso de Json*/
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

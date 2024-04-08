@@ -8,17 +8,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.antonio.agendajetpackcompose.ui.navigation.Screens
 import com.antonio.agendajetpackcompose.ui.viewmodel.AgendaViewModel
-import java.io.File
 
 @Composable
 fun Menu(navController: NavHostController, viewModel: AgendaViewModel) {
+    var context= LocalContext.current
     Column(modifier=Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
         Button(onClick = {
-//            var file= File("contactos.txt")
-//            viewModel.guardarObjetosEnArchivo(viewModel.lista,file.path)
+
+            viewModel.guardarListaEnFichero(context)
+            viewModel.leerContactosArchivo()
             navController.navigate(route=Screens.Agenda.route)
 
         }) {

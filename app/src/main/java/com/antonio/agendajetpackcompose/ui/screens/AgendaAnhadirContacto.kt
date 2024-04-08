@@ -203,7 +203,7 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                 )
                 {
 
-                    TextField(value = , onValueChange = )
+//                    TextField(value = , onValueChange = )
                     Text(
                         text = viewModel.contacto.nombre,
                         color = colorRojo,

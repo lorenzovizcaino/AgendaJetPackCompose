@@ -1,16 +1,11 @@
 package com.antonio.agendajetpackcompose.ui.screens
 
-import android.graphics.drawable.Icon
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,17 +15,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AddShoppingCart
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.PhoneAndroid
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -136,11 +126,11 @@ fun Contenido(navController: NavHostController, viewModel: AgendaViewModel) {
         items(viewModel.getListaContactos()) {
             ItemContactos(
                 viewModel = viewModel,
-                contacto = it,
-                onItemSelected = {
-                    viewModel.setaContacto(it)
-                    navController.navigate(route = Screens.AgendaDetalle.route)
-                })
+                contacto = it
+            ) {
+                viewModel.setaContacto(it)
+                navController.navigate(route = Screens.AgendaDetalle.route)
+            }
         }
     }
 

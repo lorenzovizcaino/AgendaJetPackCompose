@@ -1,10 +1,23 @@
 package com.antonio.agendajetpackcompose.ui.viewmodel
 
+import android.content.Context
+import android.graphics.Bitmap
+import androidx.annotation.DrawableRes
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import com.antonio.agendajetpackcompose.R
 import com.antonio.agendajetpackcompose.ui.model.Contactos
+import com.antonio.agendajetpackcompose.ui.model.ContactosFinales
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.decodeFromStream
+import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.ObjectInputStream
@@ -12,8 +25,9 @@ import java.io.ObjectOutputStream
 
 class AgendaViewModel {
 
-    var lista= mutableListOf<Contactos>(
-        Contactos(1,
+    var lista = mutableListOf<Contactos>(
+        Contactos(
+            1,
             "Marc-André",
             "Ter Stegen",
             "Passeig de Gràcia 34 2ºB",
@@ -25,8 +39,10 @@ class AgendaViewModel {
             "marcstegen@gmail.com",
             "30 Abril",
             "Portero sobrio y con grandes reflejos, destaca por el control aéreo y el dominio del juego de pies.",
-            R.drawable.marc_andre),
-        Contactos(2,
+            R.drawable.marc_andre
+        ),
+        Contactos(
+            2,
             "João",
             "Cancelo",
             "La rambla 324 7º",
@@ -38,8 +54,10 @@ class AgendaViewModel {
             "joaocancelo@gmail.com",
             "27 Mayo",
             "Dueño y señor del lateral derecho con una exuberancia física y una habilidad envidiable ha pasado por grandes clubs del nivel europeo.",
-            R.drawable.joao_cancelo),
-        Contactos(3,
+            R.drawable.joao_cancelo
+        ),
+        Contactos(
+            3,
             "Alejandro",
             "Balde",
             "Avinguda Diagonal 214 Atico A",
@@ -51,8 +69,10 @@ class AgendaViewModel {
             "alejandrobaldeo@gmail.com",
             "18 Octubre",
             "Dotado física y técnicamente, Alejandro Balde es un lateral explosivo y rápido con capacidad para incorporarse al ataque.",
-            R.drawable.alejandro_balde),
-        Contactos(4,
+            R.drawable.alejandro_balde
+        ),
+        Contactos(
+            4,
             "Ronald",
             "Araujo",
             "Avinguda Diagonal 214 Atico B",
@@ -64,8 +84,10 @@ class AgendaViewModel {
             "ronaldaraujo@gmail.com",
             "7 Marzo",
             "Central uruguayo con proyección, con buena salida de balón y dominio del juego aéreo.",
-            R.drawable.ronald_araujo),
-        Contactos(5,
+            R.drawable.ronald_araujo
+        ),
+        Contactos(
+            5,
             "Iñigo",
             "Martinez",
             "Carrer del Bisbe 146 5ºC",
@@ -77,8 +99,10 @@ class AgendaViewModel {
             "iñigomartinez@gmail.com",
             "17 Mayo",
             "Después de una década ininterrumpida en la élite del fútbol español, Iñigo Martinez ha demostrado ser un central con una gran salida de balón.",
-            R.drawable.inigo_martinez),
-        Contactos(6,
+            R.drawable.inigo_martinez
+        ),
+        Contactos(
+            6,
             "Pablo",
             "Paez Gavira",
             "Passeig del Born 6 4ºA",
@@ -90,8 +114,10 @@ class AgendaViewModel {
             "gavibarca@gmail.com",
             "5 Agosto",
             "Centrocampista con una gran calidad técnica y visión de juego, con carácter e intensidad, que le convierten en un jugador importante en el medio del campo.",
-            R.drawable.gavi),
-        Contactos(7,
+            R.drawable.gavi
+        ),
+        Contactos(
+            7,
             "Ferran",
             "Torres",
             "Carrer Petritxol 56",
@@ -103,8 +129,10 @@ class AgendaViewModel {
             "ferrantorres@gmail.com",
             "29 Febrero",
             "Puede ocupar cualquier posición ofensiva, exhibiendo velocidad, verticalidad, calidad e inteligencia.",
-            R.drawable.ferran_torres),
-        Contactos(7,
+            R.drawable.ferran_torres
+        ),
+        Contactos(
+            7,
             "Pedro",
             "Gonzalez Lopez",
             "Carrer Petritxol 76",
@@ -116,12 +144,13 @@ class AgendaViewModel {
             "pedribarcelona@gmail.com",
             "25 Noviembre",
             "Gusto por el fútbol combinativo, el joven futbolista tiene una excelente conducción del balon y sus milimétricos pases rompen líneas defensivas.",
-            R.drawable.pedri),
+            R.drawable.pedri
+        ),
 
-    )
-    private set
+        )
+        private set
 
-    var contacto by mutableStateOf(Contactos(0,"","","","","","","","","","","",0))
+    var contacto by mutableStateOf(Contactos(0, "", "", "", "", "", "", "", "", "", "", "", 0))
         private set
 
     var nombre by mutableStateOf("")
@@ -159,63 +188,115 @@ class AgendaViewModel {
     var foto by mutableStateOf(0)
         private set
 
-    fun getNombre(nombre:String){
+    var archivoJSon=File("")
+
+    fun getNombre(nombre: String) {
 
     }
 
+    fun guardarListaEnFichero(context: Context) {
 
+        lista.forEach { item ->
 
+            var fotoByteArrays: ByteArray
+            fotoByteArrays = obtenerBytesDeDrawable(context, item.foto)
+            var contactoFinal = ContactosFinales(
+                item.id,
+                item.nombre,
+                item.apellidos,
+                item.Direccion,
+                item.codigoPostal,
+                item.ciudad,
+                item.provincia,
+                item.telefonoFijo,
+                item.telefonoMovil,
+                item.email,
+                item.cumpleaños,
+                item.observaciones,
+                fotoByteArrays
+            )
 
+            // Serializar el objeto a JSON
+            val jsonString = Json.encodeToString(contactoFinal)
 
+            // Guardar el JSON en un archivo
+            archivoJSon = File(context.filesDir,"contactos.json")
+            archivoJSon.writeText(jsonString)
+        }
+    }
 
+    private fun obtenerBytesDeDrawable(context: Context, @DrawableRes foto: Int): ByteArray {
+        val drawable = ContextCompat.getDrawable(context, foto)
+        val bitmap = drawable?.toBitmap() // Convertir el drawable en un bitmap
+        val stream = ByteArrayOutputStream()
+        bitmap?.compress(
+            Bitmap.CompressFormat.PNG,
+            100,
+            stream
+        ) // Comprimir el bitmap a un flujo de salida
+        return stream.toByteArray() // Convertir el flujo de salida en un array de bytes
+    }
 
+   fun leerContactosArchivo(){
+//        // Leer el JSON desde el archivo y deserializarlo
+//        val jsonLeido = archivoJSon.readText()
+//        val contactosDeserializados = Json.decodeFromString<ContactosFinales>(jsonLeido)
+//        println(contactosDeserializados.nombre)
 
-    fun setaContacto(contacto:Contactos){//se le llama setaContacto por ya existir otro metodo setContacto
-        this.contacto=contacto
+        archivoJSon.forEachLine { linea->
+            val contactosFinales=Json.decodeFromString<ContactosFinales>(linea)
+            println(contactosFinales.nombre)
+            println(contactosFinales.apellidos)
+        }
     }
 
 
-    fun getListaContactos():MutableList<Contactos>{
+    fun setaContacto(contacto: Contactos) {//se le llama setaContacto por ya existir otro metodo setContacto
+        this.contacto = contacto
+    }
+
+
+    fun getListaContactos(): MutableList<Contactos> {
         return lista
     }
 
     fun IrInicio() {
-        contacto=lista.first()
+        contacto = lista.first()
     }
 
     fun IrFinal() {
-        contacto=lista.last()
+        contacto = lista.last()
     }
 
     fun IrDelante() {
-        var indice=0
+        var indice = 0
         lista.forEach { item ->
             if (item == contacto) {
-                indice=lista.indexOf(item)+1
+                indice = lista.indexOf(item) + 1
 
             }
 
         }
-        if(indice<lista.size){
-            contacto=lista[indice]
-        }else{
-            contacto=lista[indice-1]
+        if (indice < lista.size) {
+            contacto = lista[indice]
+        } else {
+            contacto = lista[indice - 1]
         }
     }
 
     fun IrAtras() {
-        var indice=0
+        var indice = 0
         lista.forEach { item ->
             if (item == contacto) {
-                indice=lista.indexOf(item)-1
+                indice = lista.indexOf(item) - 1
 
             }
 
         }
-        if(indice>=0){
-            contacto=lista[indice]
-        }else{
-            contacto=lista[indice+1]
+        if (indice >= 0) {
+            contacto = lista[indice]
+        } else {
+            contacto = lista[indice + 1]
         }
     }
 
@@ -232,10 +313,6 @@ class AgendaViewModel {
             it.readObject() as List<Any>
         }
     }
-
-
-
-
 
 
 }
