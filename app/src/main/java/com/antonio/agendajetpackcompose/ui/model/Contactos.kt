@@ -1,9 +1,9 @@
 package com.antonio.agendajetpackcompose.ui.model
 
 import androidx.annotation.DrawableRes
-import kotlinx.serialization.Serializable
+import java.io.Serializable
 
-@Serializable
+
 data class Contactos(
     var id:Int,
     var nombre:String,
@@ -18,4 +18,4 @@ data class Contactos(
     var cumpleaños:String,
     var observaciones:String,
     @DrawableRes var foto:Int,
-)
+):Serializable

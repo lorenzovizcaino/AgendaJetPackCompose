@@ -12,13 +12,16 @@ import com.antonio.agendajetpackcompose.R
 import com.antonio.agendajetpackcompose.ui.model.Contactos
 import com.antonio.agendajetpackcompose.ui.model.ContactosFinales
 import java.io.ByteArrayOutputStream
+import java.io.EOFException
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.io.IOException
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 
 class AgendaViewModel {
+
 
     var lista = mutableListOf<Contactos>(
         Contactos(
@@ -184,13 +187,25 @@ class AgendaViewModel {
         private set
 
 
+    var listaContactosLeidos = mutableListOf<ContactosFinales>()
+        private set
+
+    var listaContactosParaUtilizarApp = mutableListOf<Contactos>()
+        private set
+
+    fun getListaContactosParaUtilizarApp(): MutableList<Contactos> {
+        return listaContactosParaUtilizarApp
+    }
+
 
     fun getNombre(nombre: String) {
 
     }
 
     fun guardarListaEnFichero(context: Context) {
-        var contador=0
+        var archivo = File(context.filesDir, "contactos.dat")
+        val objectOutputStream = ObjectOutputStream(FileOutputStream(archivo))
+        var contador = 0
         lista.forEach { item ->
             contador++
 
@@ -212,31 +227,49 @@ class AgendaViewModel {
                 fotoByteArrays
             )
 
-//            // Serializar el objeto a JSON
-//            val jsonString = Json.encodeToString(contactoFinal)
-//
-//            // Guardar el JSON en un archivo
-//            archivoJSon = File(context.filesDir,"contactos.json")
-//            archivoJSon.writeText(jsonString)
-//            println(contador)
 
-            var archivo = File(context.filesDir,"contactos.dat")
             // Serializar objeto
-            serializarObjeto(contactoFinal, archivo)
+            serializarObjeto(contactoFinal, objectOutputStream)
             println(contador)
 
 
-
-
         }
+        objectOutputStream.close()
     }
 
-    fun serializarObjeto(objeto: Any, archivo: File) {
-        ObjectOutputStream(FileOutputStream(archivo)).use { it.writeObject(objeto) }
+    fun serializarObjeto(objeto: ContactosFinales, objectOutputStream: ObjectOutputStream) {
+        objectOutputStream.writeObject(objeto)
     }
 
-    fun deserializarObjeto(archivo: File): Any? {
-        return ObjectInputStream(FileInputStream(archivo)).use { it.readObject() }
+    fun deserializarObjeto(archivo: File): MutableList<ContactosFinales> {
+        listaContactosLeidos = mutableListOf<ContactosFinales>()
+
+
+        try {
+            val objectInputStream = ObjectInputStream(FileInputStream(archivo))
+
+            while (true) {
+                try {
+                    val contacto = objectInputStream.readObject()
+                    if (contacto is ContactosFinales) {
+                        listaContactosLeidos.add(contacto)
+                    } else {
+                        break;
+                    }
+
+                } catch (ex: EOFException) {
+                    break
+                }
+            }
+
+            objectInputStream.close()
+        } catch (ex: IOException) {
+            println("Error al leer el archivo: ${ex.message}")
+        } catch (ex: ClassNotFoundException) {
+            println("Clase no encontrada: ${ex.message}")
+        }
+
+        return listaContactosLeidos
     }
 
 
@@ -252,24 +285,15 @@ class AgendaViewModel {
         return stream.toByteArray() // Convertir el flujo de salida en un array de bytes
     }
 
-   fun leerContactosArchivo(context: Context) {
-//        // Leer el JSON desde el archivo y deserializarlo
-//        val jsonLeido = archivoJSon.readText()
-//        val contactosDeserializados = Json.decodeFromString<ContactosFinales>(jsonLeido)
-//        println(contactosDeserializados.nombre)
-//con line
-//        archivoJSon.forEachLine { linea->
-//            val contactosFinales=Json.decodeFromString<ContactosFinales>(linea)
-//            println(contactosFinales.nombre)
-//            println(contactosFinales.apellidos)
-//        }
-       var archivo = File(context.filesDir,"contactos.dat")
-       val objetoDeserializado = deserializarObjeto(archivo)
-       if (objetoDeserializado is ContactosFinales) {
-           println("Nombre: ${objetoDeserializado.nombre}")
-           println("Edad: ${objetoDeserializado.apellidos}")
-       }
+    fun leerContactosArchivo(context: Context) {
 
+        var archivo = File(context.filesDir, "contactos.dat")
+        val listaContactosLeidos = deserializarObjeto(archivo)
+        listaContactosLeidos.forEach { item ->
+            println("nombre:" + item.nombre)
+            println("nombre:" + item.apellidos)
+
+        }
 
 
     }

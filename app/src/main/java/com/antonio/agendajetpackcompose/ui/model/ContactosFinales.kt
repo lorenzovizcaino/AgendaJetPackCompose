@@ -1,8 +1,8 @@
 package com.antonio.agendajetpackcompose.ui.model
 
-import kotlinx.serialization.Serializable
+import java.io.Serializable
 
-@Serializable
+
 data class ContactosFinales(
     var id:Int,
     var nombre:String,
@@ -17,4 +17,4 @@ data class ContactosFinales(
     var cumpleaños:String,
     var observaciones:String,
     var foto:ByteArray,
-)
+): Serializable
