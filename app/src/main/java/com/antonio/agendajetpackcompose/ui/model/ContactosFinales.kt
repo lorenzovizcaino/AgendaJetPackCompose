@@ -16,5 +16,5 @@ data class ContactosFinales(
     var email:String,
     var cumpleaños:String,
     var observaciones:String,
-    var foto:ByteArray,
+    var foto: ByteArray?,
 ): Serializable

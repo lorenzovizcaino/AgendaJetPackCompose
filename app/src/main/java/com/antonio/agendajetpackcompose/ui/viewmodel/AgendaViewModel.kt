@@ -6,6 +6,8 @@ import androidx.annotation.DrawableRes
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.antonio.agendajetpackcompose.R
@@ -151,6 +153,9 @@ class AgendaViewModel {
     var contacto by mutableStateOf(Contactos(0, "", "", "", "", "", "", "", "", "", "", "", 0))
         private set
 
+    var contactofinal by mutableStateOf(ContactosFinales(0, "", "", "", "", "", "", "", "", "", "", "", null))
+        private set
+
     var nombre by mutableStateOf("")
         private set
     var apellidos by mutableStateOf("")
@@ -190,12 +195,14 @@ class AgendaViewModel {
     var listaContactosLeidos = mutableListOf<ContactosFinales>()
         private set
 
-    var listaContactosParaUtilizarApp = mutableListOf<Contactos>()
-        private set
 
-    fun getListaContactosParaUtilizarApp(): MutableList<Contactos> {
-        return listaContactosParaUtilizarApp
-    }
+
+//    var listaContactosParaUtilizarApp = mutableListOf<Contactos>()
+//        private set
+//
+//    fun getListaContactosParaUtilizarApp(): MutableList<Contactos> {
+//        return listaContactosParaUtilizarApp
+//    }
 
 
     fun getNombre(nombre: String) {
@@ -203,48 +210,59 @@ class AgendaViewModel {
     }
 
     fun guardarListaEnFichero(context: Context) {
-        var archivo = File(context.filesDir, "contactos.dat")
-        val objectOutputStream = ObjectOutputStream(FileOutputStream(archivo))
-        var contador = 0
-        lista.forEach { item ->
-            contador++
+        var archivo = File(context.filesDir, "contactos3.dat")
+        if(!archivo.exists()){
+            val objectOutputStream = ObjectOutputStream(FileOutputStream(archivo))
+            var contador = 0
+            lista.forEach { item ->
+                contador++
 
-            var fotoByteArrays: ByteArray
-            fotoByteArrays = obtenerBytesDeDrawable(context, item.foto)
-            var contactoFinal = ContactosFinales(
-                item.id,
-                item.nombre,
-                item.apellidos,
-                item.Direccion,
-                item.codigoPostal,
-                item.ciudad,
-                item.provincia,
-                item.telefonoFijo,
-                item.telefonoMovil,
-                item.email,
-                item.cumpleaños,
-                item.observaciones,
-                fotoByteArrays
-            )
-
-
-            // Serializar objeto
-            serializarObjeto(contactoFinal, objectOutputStream)
-            println(contador)
+                var fotoByteArrays: ByteArray
+                fotoByteArrays = obtenerBytesDeDrawable(context, item.foto)
+                var contactoFinal = ContactosFinales(
+                    item.id,
+                    item.nombre,
+                    item.apellidos,
+                    item.Direccion,
+                    item.codigoPostal,
+                    item.ciudad,
+                    item.provincia,
+                    item.telefonoFijo,
+                    item.telefonoMovil,
+                    item.email,
+                    item.cumpleaños,
+                    item.observaciones,
+                    fotoByteArrays
+                )
 
 
+                // Serializar objeto
+                serializarObjeto(contactoFinal, objectOutputStream)
+                println(contador)
+
+
+            }
+            objectOutputStream.close()
         }
-        objectOutputStream.close()
+
     }
 
     fun serializarObjeto(objeto: ContactosFinales, objectOutputStream: ObjectOutputStream) {
         objectOutputStream.writeObject(objeto)
     }
 
+    fun leerContactosArchivo(context: Context): MutableList<ContactosFinales> {
+        var archivo = File(context.filesDir, "contactos3.dat")
+        listaContactosLeidos.clear()
+        listaContactosLeidos = deserializarObjeto(archivo)
+        return listaContactosLeidos
+    }
+
+
+
+
+
     fun deserializarObjeto(archivo: File): MutableList<ContactosFinales> {
-        listaContactosLeidos = mutableListOf<ContactosFinales>()
-
-
         try {
             val objectInputStream = ObjectInputStream(FileInputStream(archivo))
 
@@ -285,22 +303,26 @@ class AgendaViewModel {
         return stream.toByteArray() // Convertir el flujo de salida en un array de bytes
     }
 
-    fun leerContactosArchivo(context: Context) {
-
-        var archivo = File(context.filesDir, "contactos.dat")
-        val listaContactosLeidos = deserializarObjeto(archivo)
-        listaContactosLeidos.forEach { item ->
-            println("nombre:" + item.nombre)
-            println("nombre:" + item.apellidos)
-
-        }
-
-
+    fun ByteArrayToImage(byteArray: ByteArray):ImageBitmap {
+        val bitmap = byteArray.decodeBitmap()
+        val imageBitmap = bitmap.asImageBitmap()
+        return imageBitmap
     }
+    // Helper function to decode ByteArray into Bitmap
+    private fun ByteArray.decodeBitmap(): android.graphics.Bitmap {
+        return android.graphics.BitmapFactory.decodeByteArray(this, 0, size)
+    }
+
+
+
+
 
 
     fun setaContacto(contacto: Contactos) {//se le llama setaContacto por ya existir otro metodo setContacto
         this.contacto = contacto
+    }
+    fun setaContactoFinales(contactoFinal: ContactosFinales) {//se le llama setaContacto por ya existir otro metodo setContacto
+        this.contactofinal = contactoFinal
     }
 
 
@@ -308,59 +330,51 @@ class AgendaViewModel {
         return lista
     }
 
+//    fun getListaContactosLeidos(): MutableList<ContactosFinales>{
+//        return listaContactosLeidos
+//    }
+
     fun IrInicio() {
-        contacto = lista.first()
+        contactofinal = listaContactosLeidos.first()
     }
 
     fun IrFinal() {
-        contacto = lista.last()
+        contactofinal = listaContactosLeidos.last()
     }
 
     fun IrDelante() {
         var indice = 0
-        lista.forEach { item ->
-            if (item == contacto) {
-                indice = lista.indexOf(item) + 1
+        listaContactosLeidos.forEach { item ->
+            if (item == contactofinal) {
+                indice = listaContactosLeidos.indexOf(item) + 1
 
             }
 
         }
-        if (indice < lista.size) {
-            contacto = lista[indice]
+        if (indice < listaContactosLeidos.size) {
+            contactofinal = listaContactosLeidos[indice]
         } else {
-            contacto = lista[indice - 1]
+            contactofinal = listaContactosLeidos[indice - 1]
         }
     }
 
     fun IrAtras() {
         var indice = 0
-        lista.forEach { item ->
-            if (item == contacto) {
-                indice = lista.indexOf(item) - 1
+        listaContactosLeidos.forEach { item ->
+            if (item == contactofinal) {
+                indice = listaContactosLeidos.indexOf(item) - 1
 
             }
 
         }
         if (indice >= 0) {
-            contacto = lista[indice]
+            contactofinal = listaContactosLeidos[indice]
         } else {
-            contacto = lista[indice + 1]
+            contactofinal = listaContactosLeidos[indice + 1]
         }
     }
 
-    // Función para guardar una lista de objetos en un archivo de texto
-    fun guardarObjetosEnArchivo(lista: List<Any>, nombreArchivo: String) {
-        ObjectOutputStream(FileOutputStream(nombreArchivo)).use {
-            it.writeObject(lista)
-        }
-    }
 
-    // Función para leer una lista de objetos desde un archivo de texto
-    fun leerObjetosDesdeArchivo(nombreArchivo: String): List<Any> {
-        return ObjectInputStream(FileInputStream(nombreArchivo)).use {
-            it.readObject() as List<Any>
-        }
-    }
 
 
 }

@@ -58,9 +58,7 @@ fun AgendaAnhadirContacto(navController: NavHostController, viewModel: AgendaVie
         content = {padding ->
             ContenidoDetalleAnhadir(navController, viewModel)
         },
-        bottomBar = {
-            MyBottonBar2(navController,viewModel)
-        }
+
 
     )
 
@@ -69,73 +67,7 @@ fun AgendaAnhadirContacto(navController: NavHostController, viewModel: AgendaVie
 
 }
 
-@Composable
-fun MyBottonBar2(navController: NavHostController,
-                viewModel: AgendaViewModel,
-                backgroundColor: Color = Color(10, 48, 100),//azul
-                contentColor: Color = Color(232, 18, 36),//rojo
-                elevation: Dp = AppBarDefaults.BottomAppBarElevation
-) {
 
-    val colorRojo= Color(232, 18, 36)
-    var context= LocalContext.current
-
-    BottomAppBar(content = {
-        Row(modifier= Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-            IconButton(onClick = {
-                viewModel.IrInicio()
-                navController.navigate(route = Screens.AgendaDetalle.route)
-
-            }) {
-                Icon(imageVector = Icons.Filled.SkipPrevious , contentDescription ="", tint = colorRojo )
-            }
-
-            IconButton(onClick = {
-                if(viewModel.contacto==viewModel.lista.first()){
-                    Toast.makeText(context,"No hay mas registros", Toast.LENGTH_SHORT).show()
-                }else{
-                    viewModel.IrAtras()
-                    navController.navigate(route = Screens.AgendaDetalle.route)
-                }
-
-
-            }) {
-                Icon(imageVector = Icons.Filled.ArrowLeft , contentDescription ="", tint = colorRojo,
-                    modifier = Modifier.size(55.dp)
-                )
-            }
-
-            IconButton(onClick = {
-                if(viewModel.contacto==viewModel.lista.last()){
-                    Toast.makeText(context,"No hay mas registros", Toast.LENGTH_SHORT).show()
-                }else{
-                    viewModel.IrDelante()
-                    navController.navigate(route = Screens.AgendaDetalle.route)
-                }
-
-            }) {
-                Icon(imageVector = Icons.Filled.ArrowRight , contentDescription ="", tint = colorRojo,
-                    modifier = Modifier.size(55.dp) )
-            }
-
-            IconButton(onClick = {
-                viewModel.IrFinal()
-                navController.navigate(route = Screens.AgendaDetalle.route)
-            }) {
-                Icon(imageVector = Icons.Filled.SkipNext , contentDescription ="", tint = colorRojo )
-            }
-        }
-
-
-
-    },
-        backgroundColor = backgroundColor,
-        contentColor = contentColor,
-        elevation = elevation
-    )
-
-
-}
 
 @Composable
 fun MyTopBar3(navController: NavHostController,

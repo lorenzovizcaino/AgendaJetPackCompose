@@ -90,7 +90,7 @@ fun MyBottonBar(navController: NavHostController,
             }
 
             IconButton(onClick = {
-                if(viewModel.contacto==viewModel.lista.first()){
+                if(viewModel.contactofinal==viewModel.listaContactosLeidos.first()){
                     Toast.makeText(context,"No hay mas registros", Toast.LENGTH_SHORT).show()
                 }else{
                     viewModel.IrAtras()
@@ -105,7 +105,7 @@ fun MyBottonBar(navController: NavHostController,
             }
 
             IconButton(onClick = {
-                if(viewModel.contacto==viewModel.lista.last()){
+                if(viewModel.contactofinal==viewModel.listaContactosLeidos.last()){
                     Toast.makeText(context,"No hay mas registros", Toast.LENGTH_SHORT).show()
                 }else{
                     viewModel.IrDelante()
@@ -176,6 +176,7 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
     val colorRojo = Color(232, 18, 36)
     val colorAzul = Color(10, 48, 100)
     val colorAmarillo = Color(235, 203, 73)
+    val imageBitmap= viewModel.contactofinal.foto?.let { viewModel.ByteArrayToImage(it) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -207,14 +208,14 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
 
 
                     Text(
-                        text = viewModel.contacto.nombre,
+                        text = viewModel.contactofinal.nombre,
                         color = colorRojo,
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold
                     )
 
                     Text(
-                        text = viewModel.contacto.apellidos,
+                        text = viewModel.contactofinal.apellidos,
                         color = colorAzul,
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold
@@ -227,7 +228,7 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                             tint = colorRojo,
                             modifier = Modifier.size(30.dp)
                         )
-                        Text(text = viewModel.contacto.telefonoFijo, fontSize = 20.sp)
+                        Text(text = viewModel.contactofinal.telefonoFijo, fontSize = 20.sp)
                     }
                     Row() {
                         Icon(
@@ -237,22 +238,24 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                             modifier = Modifier.size(30.dp)
                         )
                         Text(
-                            text = viewModel.contacto.telefonoMovil,
+                            text = viewModel.contactofinal.telefonoMovil,
                             fontSize = 20.sp,
                             modifier = Modifier.padding(top = 5.dp)
                         )
                     }
 
                 }
-                Image(
-                    alignment = Alignment.CenterEnd,
-                    painter = painterResource(id = viewModel.contacto.foto),
-                    contentDescription = "foto",
-                    modifier = Modifier
-                        .size(200.dp)
-                        .weight(1f)
+                imageBitmap?.let {
+                    Image(
+                        alignment = Alignment.CenterEnd,
+                        bitmap = it,
+                        contentDescription = "foto",
+                        modifier = Modifier
+                            .size(200.dp)
+                            .weight(1f)
 
-                )
+                    )
+                }
 
             }
             Row(){
@@ -261,7 +264,7 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = viewModel.contacto.Direccion,
+                    text = viewModel.contactofinal.Direccion,
                     modifier = Modifier.padding(top=10.dp),
                     fontSize = 16.sp
                 )
@@ -272,7 +275,7 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                     modifier=Modifier.padding(start=10.dp,top=10.dp),
                     fontWeight = FontWeight.Bold)
                 Text(
-                    text = viewModel.contacto.codigoPostal,
+                    text = viewModel.contactofinal.codigoPostal,
                     modifier = Modifier.padding(top=10.dp),
                     fontSize = 16.sp
                 )
@@ -281,7 +284,7 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                     modifier=Modifier.padding(start=10.dp,top=10.dp),
                     fontWeight = FontWeight.Bold)
                 Text(
-                    text = viewModel.contacto.ciudad,
+                    text = viewModel.contactofinal.ciudad,
                     modifier = Modifier.padding(top=10.dp),
                     fontSize = 16.sp
                 )
@@ -293,7 +296,7 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                     modifier=Modifier.padding(start=10.dp,top=10.dp),
                     fontWeight = FontWeight.Bold)
                 Text(
-                    text = viewModel.contacto.provincia,
+                    text = viewModel.contactofinal.provincia,
                     modifier = Modifier.padding(top=10.dp),
                     fontSize = 16.sp
                 )
@@ -304,7 +307,7 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                     modifier=Modifier.padding(start=10.dp,top=10.dp),
                     fontWeight = FontWeight.Bold)
                 Text(
-                    text = viewModel.contacto.email,
+                    text = viewModel.contactofinal.email,
                     modifier = Modifier.padding(top=10.dp),
                     fontSize = 16.sp
                 )
@@ -315,7 +318,7 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                     modifier=Modifier.padding(start=10.dp,top=10.dp),
                     fontWeight = FontWeight.Bold)
                 Text(
-                    text = viewModel.contacto.cumpleaños,
+                    text = viewModel.contactofinal.cumpleaños,
                     modifier = Modifier.padding(top=10.dp),
                     fontSize = 16.sp
                 )
@@ -331,7 +334,7 @@ fun ContenidoDetalle(navController: NavHostController, viewModel: AgendaViewMode
                         modifier=Modifier.padding(start=10.dp,top=10.dp),
                         fontWeight = FontWeight.Bold)
                     Text(
-                        text = viewModel.contacto.observaciones,
+                        text = viewModel.contactofinal.observaciones,
                         modifier = Modifier.padding(10.dp)
                     )
                 }

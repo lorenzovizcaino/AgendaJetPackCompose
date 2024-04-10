@@ -20,7 +20,6 @@ fun Menu(navController: NavHostController, viewModel: AgendaViewModel) {
         Button(onClick = {
 
             viewModel.guardarListaEnFichero(context)
-            viewModel.leerContactosArchivo(context)
             navController.navigate(route=Screens.Agenda.route)
 
         }) {

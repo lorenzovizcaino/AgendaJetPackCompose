@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.antonio.agendajetpackcompose.ui.model.Contactos
+import com.antonio.agendajetpackcompose.ui.model.ContactosFinales
 import com.antonio.agendajetpackcompose.ui.navigation.Screens
 import com.antonio.agendajetpackcompose.ui.viewmodel.AgendaViewModel
 
@@ -123,12 +124,12 @@ fun Contenido(navController: NavHostController, viewModel: AgendaViewModel) {
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(top = 60.dp)
     ) {
-        items(viewModel.getListaContactos()) {
+        items(viewModel.leerContactosArchivo(context)) {
             ItemContactos(
                 viewModel = viewModel,
                 contacto = it
             ) {
-                viewModel.setaContacto(it)
+                viewModel.setaContactoFinales(it)
                 navController.navigate(route = Screens.AgendaDetalle.route)
             }
         }
@@ -138,9 +139,17 @@ fun Contenido(navController: NavHostController, viewModel: AgendaViewModel) {
 }
 
 @Composable
-fun ItemContactos(viewModel: AgendaViewModel, contacto: Contactos, onItemSelected: () -> Unit) {
+fun ItemContactos(viewModel: AgendaViewModel, contacto: ContactosFinales, onItemSelected: () -> Unit) {
     val colorRojo=Color(232, 18, 36)
     val colorAzul=Color(10, 48, 100)
+
+    val imageBitmap = if (contacto.foto != null) {
+        viewModel.ByteArrayToImage(contacto.foto!!)
+    } else {
+        null
+    }
+    //val imageBitmap= contacto.foto?.let { viewModel.ByteArrayToImage(it) }
+    //se transforma ByteArray a imageBitMap para poder utilizar la foto en el Image()
 
     Card(border = BorderStroke(2.dp, colorRojo), modifier = Modifier
         .fillMaxWidth()
@@ -149,11 +158,13 @@ fun ItemContactos(viewModel: AgendaViewModel, contacto: Contactos, onItemSelecte
         .padding(horizontal = 8.dp, vertical = 2.dp)) {
 
         Row() {
-            Image(
-                painter = painterResource(id = contacto.foto),
-                contentDescription = "foto contacto",
-                modifier = Modifier.size(90.dp)
-            )
+            imageBitmap?.let {
+                Image(
+                    bitmap = it,
+                    contentDescription = "foto contacto",
+                    modifier = Modifier.size(90.dp)
+                )
+            }
             Column(modifier = Modifier.padding(5.dp)) {
                 Text(text = contacto.nombre + " " + contacto.apellidos,
                     fontWeight = FontWeight.Bold,
