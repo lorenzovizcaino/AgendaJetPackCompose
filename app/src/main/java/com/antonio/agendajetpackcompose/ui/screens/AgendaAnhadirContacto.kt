@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.antonio.agendajetpackcompose.ui.miscompose.myTextField
 import com.antonio.agendajetpackcompose.ui.navigation.Screens
 import com.antonio.agendajetpackcompose.ui.viewmodel.AgendaViewModel
 import org.w3c.dom.Text
@@ -135,144 +136,148 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                 )
                 {
 
-//                    TextField(value = , onValueChange = )
-                    Text(
-                        text = viewModel.contacto.nombre,
-                        color = colorRojo,
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold
-                    )
 
-                    Text(
-                        text = viewModel.contacto.apellidos,
-                        color = colorAzul,
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    myTextField(
+                        number = viewModel.nombre,
+                        function = { viewModel.getNombre(it) },
+                        texto = "Nombre")
+//                    Text(
+//                        text = viewModel.contacto.nombre,
+//                        color = colorRojo,
+//                        fontSize = 25.sp,
+//                        fontWeight = FontWeight.Bold
+//                    )
 
-                    Row() {
-                        Icon(
-                            imageVector = Icons.Filled.Call,
-                            contentDescription = "telefonoFijo",
-                            tint = colorRojo,
-                            modifier = Modifier.size(30.dp)
-                        )
-                        Text(text = viewModel.contacto.telefonoFijo, fontSize = 20.sp)
-                    }
-                    Row() {
-                        Icon(
-                            imageVector = Icons.Filled.PhoneAndroid,
-                            contentDescription = "telefonoMovil",
-                            tint = colorAzul,
-                            modifier = Modifier.size(30.dp)
-                        )
-                        Text(
-                            text = viewModel.contacto.telefonoMovil,
-                            fontSize = 20.sp,
-                            modifier = Modifier.padding(top = 5.dp)
-                        )
-                    }
+//                    Text(
+//                        text = viewModel.contacto.apellidos,
+//                        color = colorAzul,
+//                        fontSize = 25.sp,
+//                        fontWeight = FontWeight.Bold
+//                    )
+
+//                    Row() {
+//                        Icon(
+//                            imageVector = Icons.Filled.Call,
+//                            contentDescription = "telefonoFijo",
+//                            tint = colorRojo,
+//                            modifier = Modifier.size(30.dp)
+//                        )
+//                        Text(text = viewModel.contacto.telefonoFijo, fontSize = 20.sp)
+//                    }
+//                    Row() {
+//                        Icon(
+//                            imageVector = Icons.Filled.PhoneAndroid,
+//                            contentDescription = "telefonoMovil",
+//                            tint = colorAzul,
+//                            modifier = Modifier.size(30.dp)
+//                        )
+//                        Text(
+//                            text = viewModel.contacto.telefonoMovil,
+//                            fontSize = 20.sp,
+//                            modifier = Modifier.padding(top = 5.dp)
+//                        )
+//                    }
 
                 }
-                Image(
-                    alignment = Alignment.CenterEnd,
-                    painter = painterResource(id = viewModel.contacto.foto),
-                    contentDescription = "foto",
-                    modifier = Modifier
-                        .size(200.dp)
-                        .weight(1f)
-
-                )
-
-            }
-            Row(){
-                Text(text = "Dirección: ",
-                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = viewModel.contacto.Direccion,
-                    modifier = Modifier.padding(top=10.dp),
-                    fontSize = 16.sp
-                )
-            }
-
-            Row(){
-                Text(text = "C.P: ",
-                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-                    fontWeight = FontWeight.Bold)
-                Text(
-                    text = viewModel.contacto.codigoPostal,
-                    modifier = Modifier.padding(top=10.dp),
-                    fontSize = 16.sp
-                )
-
-                Text(text = "Ciudad: ",
-                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-                    fontWeight = FontWeight.Bold)
-                Text(
-                    text = viewModel.contacto.ciudad,
-                    modifier = Modifier.padding(top=10.dp),
-                    fontSize = 16.sp
-                )
-
+//                Image(
+//                    alignment = Alignment.CenterEnd,
+//                    painter = painterResource(id = viewModel.contacto.foto),
+//                    contentDescription = "foto",
+//                    modifier = Modifier
+//                        .size(200.dp)
+//                        .weight(1f)
+//
+//                )
 
             }
-            Row(){
-                Text(text = "Provincia: ",
-                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-                    fontWeight = FontWeight.Bold)
-                Text(
-                    text = viewModel.contacto.provincia,
-                    modifier = Modifier.padding(top=10.dp),
-                    fontSize = 16.sp
-                )
-            }
+//            Row(){
+//                Text(text = "Dirección: ",
+//                    modifier= Modifier.padding(start=10.dp,top=10.dp),
+//                    fontWeight = FontWeight.Bold
+//                )
+//                Text(
+//                    text = viewModel.contacto.Direccion,
+//                    modifier = Modifier.padding(top=10.dp),
+//                    fontSize = 16.sp
+//                )
+//            }
 
-            Row(){
-                Text(text = "email: ",
-                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-                    fontWeight = FontWeight.Bold)
-                Text(
-                    text = viewModel.contacto.email,
-                    modifier = Modifier.padding(top=10.dp),
-                    fontSize = 16.sp
-                )
-            }
+//            Row(){
+//                Text(text = "C.P: ",
+//                    modifier= Modifier.padding(start=10.dp,top=10.dp),
+//                    fontWeight = FontWeight.Bold)
+//                Text(
+//                    text = viewModel.contacto.codigoPostal,
+//                    modifier = Modifier.padding(top=10.dp),
+//                    fontSize = 16.sp
+//                )
+//
+//                Text(text = "Ciudad: ",
+//                    modifier= Modifier.padding(start=10.dp,top=10.dp),
+//                    fontWeight = FontWeight.Bold)
+//                Text(
+//                    text = viewModel.contacto.ciudad,
+//                    modifier = Modifier.padding(top=10.dp),
+//                    fontSize = 16.sp
+//                )
+//
+//
+//            }
+//            Row(){
+//                Text(text = "Provincia: ",
+//                    modifier= Modifier.padding(start=10.dp,top=10.dp),
+//                    fontWeight = FontWeight.Bold)
+//                Text(
+//                    text = viewModel.contacto.provincia,
+//                    modifier = Modifier.padding(top=10.dp),
+//                    fontSize = 16.sp
+//                )
+//            }
 
-            Row(){
-                Text(text = "Cumpleaños: ",
-                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-                    fontWeight = FontWeight.Bold)
-                Text(
-                    text = viewModel.contacto.cumpleaños,
-                    modifier = Modifier.padding(top=10.dp),
-                    fontSize = 16.sp
-                )
-            }
+//            Row(){
+//                Text(text = "email: ",
+//                    modifier= Modifier.padding(start=10.dp,top=10.dp),
+//                    fontWeight = FontWeight.Bold)
+//                Text(
+//                    text = viewModel.contacto.email,
+//                    modifier = Modifier.padding(top=10.dp),
+//                    fontSize = 16.sp
+//                )
+//            }
 
-            Card(
-                border = BorderStroke(2.dp, colorAzul), modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 24.dp)
-            ) {
-                Column(){
-                    Text(text = "Observaciones: ",
-                        modifier= Modifier.padding(start=10.dp,top=10.dp),
-                        fontWeight = FontWeight.Bold)
-                    Text(
-                        text = viewModel.contacto.observaciones,
-                        modifier = Modifier.padding(10.dp)
-                    )
-                }
+//            Row(){
+//                Text(text = "Cumpleaños: ",
+//                    modifier= Modifier.padding(start=10.dp,top=10.dp),
+//                    fontWeight = FontWeight.Bold)
+//                Text(
+//                    text = viewModel.contacto.cumpleaños,
+//                    modifier = Modifier.padding(top=10.dp),
+//                    fontSize = 16.sp
+//                )
+//            }
+
+//            Card(
+//                border = BorderStroke(2.dp, colorAzul), modifier = Modifier
+//                    .fillMaxSize()
+//                    .padding(horizontal = 16.dp, vertical = 24.dp)
+//            ) {
+//                Column(){
+//                    Text(text = "Observaciones: ",
+//                        modifier= Modifier.padding(start=10.dp,top=10.dp),
+//                        fontWeight = FontWeight.Bold)
+//                    Text(
+//                        text = viewModel.contacto.observaciones,
+//                        modifier = Modifier.padding(10.dp)
+//                    )
+//                }
+//
+//
+//            }
 
 
-            }
 
 
-
-
-
+//
 
 
         }
