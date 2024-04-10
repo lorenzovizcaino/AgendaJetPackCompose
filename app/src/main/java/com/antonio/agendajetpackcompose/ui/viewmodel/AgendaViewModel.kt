@@ -188,7 +188,7 @@ class AgendaViewModel {
     var observaciones by mutableStateOf("")
         private set
 
-    var foto by mutableStateOf(0)
+    var foto by mutableStateOf(null)
         private set
 
 
@@ -206,8 +206,52 @@ class AgendaViewModel {
 
 
     fun getNombre(nombre: String) {
-
+        this.nombre=nombre
     }
+
+    fun getApellidos(apellidos: String) {
+        this.apellidos=apellidos
+    }
+
+    fun getDireccion(direccion: String) {
+        this.direccion=direccion
+    }
+
+    fun getCodigoPostal(codigoPostal: String) {
+        this.codigoPostal=codigoPostal
+    }
+
+    fun getCiudad(ciudad: String) {
+        this.ciudad=ciudad
+    }
+
+    fun getProvincia(provincia: String) {
+        this.provincia=provincia
+    }
+
+    fun getTelefonoFijo(telefonoFijo: String) {
+        this.telefonoFijo=telefonoFijo
+    }
+
+    fun getTelefonoMovil(telefonoMovil: String) {
+        this.telefonoMovil=telefonoMovil
+    }
+
+    fun getEmail(email: String) {
+        this.email=email
+    }
+
+    fun getCumpleanhos(cumpleaños: String) {
+        this.cumpleaños=cumpleaños
+    }
+
+    fun getObservaciones(observaciones: String) {
+        this.observaciones=observaciones
+    }
+
+//    fun getFoto(foto: ByteArray?) {
+//        this.foto= foto as Nothing?
+//    }
 
     fun guardarListaEnFichero(context: Context) {
         var archivo = File(context.filesDir, "contactos3.dat")

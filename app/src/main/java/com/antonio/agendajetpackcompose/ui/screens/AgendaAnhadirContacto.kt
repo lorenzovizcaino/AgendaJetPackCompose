@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.antonio.agendajetpackcompose.ui.miscompoose.myTextField
 import com.antonio.agendajetpackcompose.ui.navigation.Screens
 import com.antonio.agendajetpackcompose.ui.viewmodel.AgendaViewModel
 import org.w3c.dom.Text
@@ -53,37 +54,36 @@ fun AgendaAnhadirContacto(navController: NavHostController, viewModel: AgendaVie
 
     Scaffold(
         topBar = {
-            MyTopBar3(navController,viewModel)
+            MyTopBar3(navController, viewModel)
         },
-        content = {padding ->
+        content = { padding ->
             ContenidoDetalleAnhadir(navController, viewModel)
         },
 
 
-    )
-
-
+        )
 
 
 }
 
 
-
 @Composable
-fun MyTopBar3(navController: NavHostController,
-              viewModel: AgendaViewModel,
-              backgroundColor: Color = Color(10, 48, 100),//azul
-              contentColor: Color = Color(232, 18, 36),//rojo
-              elevation: Dp = AppBarDefaults.TopAppBarElevation
+fun MyTopBar3(
+    navController: NavHostController,
+    viewModel: AgendaViewModel,
+    backgroundColor: Color = Color(10, 48, 100),//azul
+    contentColor: Color = Color(232, 18, 36),//rojo
+    elevation: Dp = AppBarDefaults.TopAppBarElevation
 ) {
-    val context= LocalContext.current
+    val context = LocalContext.current
 
-    val colorRojo= Color(232, 18, 36)
+    val colorRojo = Color(232, 18, 36)
     TopAppBar(
 
         navigationIcon = {
-            IconButton(onClick = {navController.navigate(route = Screens.Agenda.route)}) {
-                Icon(imageVector = Icons.Filled.ArrowBack,
+            IconButton(onClick = { navController.navigate(route = Screens.Agenda.route) }) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Ir hacia atras",
                     tint = colorRojo,
                     modifier = Modifier.size(60.dp)
@@ -91,9 +91,15 @@ fun MyTopBar3(navController: NavHostController,
             }
 
 
-
         },
-        title = { Text("Agenda F.C. Barcelona", color = colorRojo, fontWeight = FontWeight.Bold, fontSize = 20.sp) },
+        title = {
+            Text(
+                "Agenda F.C. Barcelona",
+                color = colorRojo,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            )
+        },
 
         backgroundColor = backgroundColor,
         contentColor = contentColor,
@@ -116,7 +122,7 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
     ) {
         Card(
             border = BorderStroke(2.dp, colorRojo),
-            colors= CardDefaults.cardColors(containerColor = colorAmarillo),
+            colors = CardDefaults.cardColors(containerColor = colorAmarillo),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(vertical = 75.dp, horizontal = 16.dp)
@@ -135,7 +141,10 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                 )
                 {
 
-//                    TextField(value = , onValueChange = )
+//                    myTextField(
+//                        number = viewModel.nombre,
+//                        function = { viewModel.getNombre(it) },
+//                        texto = "Nombre")
                     Text(
                         text = viewModel.contacto.nombre,
                         color = colorRojo,
@@ -185,68 +194,79 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                 )
 
             }
-            Row(){
-                Text(text = "Dirección: ",
-                    modifier= Modifier.padding(start=10.dp,top=10.dp),
+            Row() {
+                Text(
+                    text = "Dirección: ",
+                    modifier = Modifier.padding(start = 10.dp, top = 10.dp),
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = viewModel.contacto.Direccion,
-                    modifier = Modifier.padding(top=10.dp),
+                    modifier = Modifier.padding(top = 10.dp),
                     fontSize = 16.sp
                 )
             }
 
-            Row(){
-                Text(text = "C.P: ",
-                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-                    fontWeight = FontWeight.Bold)
+            Row() {
+                Text(
+                    text = "C.P: ",
+                    modifier = Modifier.padding(start = 10.dp, top = 10.dp),
+                    fontWeight = FontWeight.Bold
+                )
                 Text(
                     text = viewModel.contacto.codigoPostal,
-                    modifier = Modifier.padding(top=10.dp),
+                    modifier = Modifier.padding(top = 10.dp),
                     fontSize = 16.sp
                 )
 
-                Text(text = "Ciudad: ",
-                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-                    fontWeight = FontWeight.Bold)
+                Text(
+                    text = "Ciudad: ",
+                    modifier = Modifier.padding(start = 10.dp, top = 10.dp),
+                    fontWeight = FontWeight.Bold
+                )
                 Text(
                     text = viewModel.contacto.ciudad,
-                    modifier = Modifier.padding(top=10.dp),
+                    modifier = Modifier.padding(top = 10.dp),
                     fontSize = 16.sp
                 )
 
 
             }
-            Row(){
-                Text(text = "Provincia: ",
-                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-                    fontWeight = FontWeight.Bold)
+            Row() {
+                Text(
+                    text = "Provincia: ",
+                    modifier = Modifier.padding(start = 10.dp, top = 10.dp),
+                    fontWeight = FontWeight.Bold
+                )
                 Text(
                     text = viewModel.contacto.provincia,
-                    modifier = Modifier.padding(top=10.dp),
+                    modifier = Modifier.padding(top = 10.dp),
                     fontSize = 16.sp
                 )
             }
 
-            Row(){
-                Text(text = "email: ",
-                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-                    fontWeight = FontWeight.Bold)
+            Row() {
+                Text(
+                    text = "email: ",
+                    modifier = Modifier.padding(start = 10.dp, top = 10.dp),
+                    fontWeight = FontWeight.Bold
+                )
                 Text(
                     text = viewModel.contacto.email,
-                    modifier = Modifier.padding(top=10.dp),
+                    modifier = Modifier.padding(top = 10.dp),
                     fontSize = 16.sp
                 )
             }
 
-            Row(){
-                Text(text = "Cumpleaños: ",
-                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-                    fontWeight = FontWeight.Bold)
+            Row() {
+                Text(
+                    text = "Cumpleaños: ",
+                    modifier = Modifier.padding(start = 10.dp, top = 10.dp),
+                    fontWeight = FontWeight.Bold
+                )
                 Text(
                     text = viewModel.contacto.cumpleaños,
-                    modifier = Modifier.padding(top=10.dp),
+                    modifier = Modifier.padding(top = 10.dp),
                     fontSize = 16.sp
                 )
             }
@@ -256,10 +276,12 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                     .fillMaxSize()
                     .padding(horizontal = 16.dp, vertical = 24.dp)
             ) {
-                Column(){
-                    Text(text = "Observaciones: ",
-                        modifier= Modifier.padding(start=10.dp,top=10.dp),
-                        fontWeight = FontWeight.Bold)
+                Column() {
+                    Text(
+                        text = "Observaciones: ",
+                        modifier = Modifier.padding(start = 10.dp, top = 10.dp),
+                        fontWeight = FontWeight.Bold
+                    )
                     Text(
                         text = viewModel.contacto.observaciones,
                         modifier = Modifier.padding(10.dp)
@@ -268,11 +290,6 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
 
 
             }
-
-
-
-
-
 
 
         }
