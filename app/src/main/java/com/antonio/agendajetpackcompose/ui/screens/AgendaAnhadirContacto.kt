@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,6 +20,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Shapes
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -28,6 +30,8 @@ import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,11 +44,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,6 +60,7 @@ import com.antonio.agendajetpackcompose.ui.miscompose.myTextField
 import com.antonio.agendajetpackcompose.ui.navigation.Screens
 import com.antonio.agendajetpackcompose.ui.viewmodel.AgendaViewModel
 import org.w3c.dom.Text
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -133,17 +140,19 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
             colors = CardDefaults.cardColors(containerColor = colorAmarillo),
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 75.dp, horizontal = 16.dp)
+                .padding(top = 70.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
+              //  .padding(top=75.dp, bottom = 16.dp, start = 16.dp,end=16.dp)
+
         ) {
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(end = 10.dp, top = 10.dp)
+                    .padding(end = 10.dp, top = 5.dp)
             ) {
                 Column(
                     Modifier
                         .weight(1.2f)
-                        .padding(top = 10.dp, start = 10.dp),
+                        .padding(top = 4.dp, start = 10.dp),
                     // .height(160.dp),
                     verticalArrangement = Arrangement.SpaceEvenly
                 )
@@ -154,14 +163,16 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                         onValueChange = { viewModel.getNombre(it) },
                         label = {
                             if (viewModel.nombre.isEmpty()) {
-                                Text("Nombre", style = TextStyle(fontSize = 10.sp))
+                                Text("Nombre", style = TextStyle(fontSize = 14.sp))
+                            }else{
+                                Text("Nombre", style = TextStyle(fontSize = 12.sp), color = colorAzul)
                             }
                         },
-                        textStyle = TextStyle(fontSize = 12.sp),
+                        textStyle = TextStyle(fontSize = 16.sp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         modifier = Modifier
                             .width(180.dp)
-                            .height(45.dp)
+                            .height(55.dp)
                     )
                     Spacer(modifier = Modifier.size(2.dp))
 
@@ -170,14 +181,16 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                         onValueChange = { viewModel.getApellidos(it) },
                         label = {
                             if (viewModel.apellidos.isEmpty()) {
-                                Text("Apellidos", style = TextStyle(fontSize = 10.sp))
+                                Text("Apellidos", style = TextStyle(fontSize = 14.sp))
+                            }else{
+                                Text("Apellidos", style = TextStyle(fontSize = 12.sp), color = colorAzul)
                             }
                         },
-                        textStyle = TextStyle(fontSize = 12.sp),
+                        textStyle = TextStyle(fontSize = 16.sp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         modifier = Modifier
                             .width(180.dp)
-                            .height(45.dp)
+                            .height(55.dp)
                     )
                     Spacer(modifier = Modifier.size(2.dp))
                     TextField(
@@ -185,14 +198,16 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                         onValueChange = { viewModel.getTelefonoFijo(it) },
                         label = {
                             if (viewModel.telefonoFijo.isEmpty()) {
-                                Text("Telefono fijo", style = TextStyle(fontSize = 10.sp))
+                                Text("Telefono fijo", style = TextStyle(fontSize = 14.sp))
+                            }else{
+                                Text("Telefono fijo", style = TextStyle(fontSize = 12.sp), color = colorAzul)
                             }
                         },
-                        textStyle = TextStyle(fontSize = 12.sp),
+                        textStyle = TextStyle(fontSize = 16.sp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier
                             .width(180.dp)
-                            .height(45.dp)
+                            .height(55.dp)
                     )
                     Spacer(modifier = Modifier.size(2.dp))
                     TextField(
@@ -200,118 +215,190 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                         onValueChange = { viewModel.getTelefonoMovil(it) },
                         label = {
                             if (viewModel.telefonoMovil.isEmpty()) {
-                                Text("Telefono movil", style = TextStyle(fontSize = 10.sp))
+                                Text("Telefono movil", style = TextStyle(fontSize = 14.sp))
+                            }else{
+                                Text("Telefono movil", style = TextStyle(fontSize = 12.sp), color = colorAzul)
                             }
                         },
-                        textStyle = TextStyle(fontSize = 12.sp),
+                        textStyle = TextStyle(fontSize = 16.sp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier
                             .width(180.dp)
-                            .height(45.dp)
+                            .height(55.dp)
                     )
 
 
                 }
-                Image(
-                    alignment = Alignment.CenterEnd,
-                    painter = painterResource(R.drawable.jugadordesconocido),
-                    contentDescription = "foto",
-                    modifier = Modifier
-                        .size(200.dp)
+                Column(
+                    Modifier
                         .weight(0.9f)
+                        .padding(top = 4.dp),
+                    verticalArrangement = Arrangement.SpaceAround,
+                    horizontalAlignment = Alignment.CenterHorizontally
 
-                )
+                    ){
+                    Image(
+                        //alignment = Alignment.CenterEnd,
+                        painter = painterResource(R.drawable.jugadordesconocido),
+                        contentDescription = "foto",
+
+
+                    )
+                    Spacer(modifier = Modifier.size(15.dp))
+                    Button(onClick = {  },
+                        shape = RectangleShape,
+                        modifier=Modifier.fillMaxWidth().height(50.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = colorAzul, contentColor = colorRojo)
+                        ){
+                        Text(text = "Elegir Foto", fontSize = 18.sp)
+                    }
+                }
+                
 
             }
-//            Row(){
-//                Text(text = "Dirección: ",
-//                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-//                    fontWeight = FontWeight.Bold
-//                )
-//                Text(
-//                    text = viewModel.contacto.Direccion,
-//                    modifier = Modifier.padding(top=10.dp),
-//                    fontSize = 16.sp
-//                )
-//            }
+            Spacer(modifier = Modifier.size(2.dp))
+            TextField(
+                value = viewModel.direccion,
+                onValueChange = { viewModel.getDireccion(it) },
+                label = {
+                    if (viewModel.direccion.isEmpty()) {
+                        Text("Dirección", style = TextStyle(fontSize = 14.sp))
+                    }else{
+                        Text("Dirección", style = TextStyle(fontSize = 12.sp), color = colorAzul)
+                    }
+                },
+                textStyle = TextStyle(fontSize = 16.sp),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(55.dp)
+                    .padding(horizontal = 10.dp)
+            )
 
-//            Row(){
-//                Text(text = "C.P: ",
-//                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-//                    fontWeight = FontWeight.Bold)
-//                Text(
-//                    text = viewModel.contacto.codigoPostal,
-//                    modifier = Modifier.padding(top=10.dp),
-//                    fontSize = 16.sp
-//                )
-//
-//                Text(text = "Ciudad: ",
-//                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-//                    fontWeight = FontWeight.Bold)
-//                Text(
-//                    text = viewModel.contacto.ciudad,
-//                    modifier = Modifier.padding(top=10.dp),
-//                    fontSize = 16.sp
-//                )
-//
-//
-//            }
-//            Row(){
-//                Text(text = "Provincia: ",
-//                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-//                    fontWeight = FontWeight.Bold)
-//                Text(
-//                    text = viewModel.contacto.provincia,
-//                    modifier = Modifier.padding(top=10.dp),
-//                    fontSize = 16.sp
-//                )
-//            }
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 2.dp, horizontal = 8.dp)){
+                TextField(
+                    value = viewModel.codigoPostal,
+                    onValueChange = { viewModel.getCodigoPostal(it) },
+                    label = {
+                        if (viewModel.codigoPostal.isEmpty()) {
+                            Text("C.P.", style = TextStyle(fontSize = 14.sp))
+                        }else{
+                            Text("C.P.", style = TextStyle(fontSize = 12.sp), color = colorAzul)
+                        }
+                    },
+                    textStyle = TextStyle(fontSize = 16.sp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = Modifier
+                        .weight(0.5f)
+                        .height(55.dp)
+                        .padding(horizontal = 2.dp)
+                )
 
-//            Row(){
-//                Text(text = "email: ",
-//                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-//                    fontWeight = FontWeight.Bold)
-//                Text(
-//                    text = viewModel.contacto.email,
-//                    modifier = Modifier.padding(top=10.dp),
-//                    fontSize = 16.sp
-//                )
-//            }
+                TextField(
+                    value = viewModel.ciudad,
+                    onValueChange = { viewModel.getCiudad(it) },
+                    label = {
+                        if (viewModel.ciudad.isEmpty()) {
+                            Text("Ciudad", style = TextStyle(fontSize = 14.sp))
+                        }else{
+                            Text("Ciudad", style = TextStyle(fontSize = 12.sp), color = colorAzul)
+                        }
+                    },
+                    textStyle = TextStyle(fontSize = 16.sp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(55.dp)
+                        .padding(horizontal = 2.dp)
+                )
+            }
 
-//            Row(){
-//                Text(text = "Cumpleaños: ",
-//                    modifier= Modifier.padding(start=10.dp,top=10.dp),
-//                    fontWeight = FontWeight.Bold)
-//                Text(
-//                    text = viewModel.contacto.cumpleaños,
-//                    modifier = Modifier.padding(top=10.dp),
-//                    fontSize = 16.sp
-//                )
-//            }
+            TextField(
+                value = viewModel.provincia,
+                onValueChange = { viewModel.getProvincia(it) },
+                label = {
+                    if (viewModel.provincia.isEmpty()) {
+                        Text("Provincia", style = TextStyle(fontSize = 14.sp))
+                    }else{
+                        Text("Provincia", style = TextStyle(fontSize = 12.sp), color = colorAzul)
+                    }
+                },
+                textStyle = TextStyle(fontSize = 16.sp),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(55.dp)
+                    .padding(horizontal = 10.dp)
+            )
+            Spacer(modifier = Modifier.size(2.dp))
 
-//            Card(
-//                border = BorderStroke(2.dp, colorAzul), modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(horizontal = 16.dp, vertical = 24.dp)
-//            ) {
-//                Column(){
-//                    Text(text = "Observaciones: ",
-//                        modifier= Modifier.padding(start=10.dp,top=10.dp),
-//                        fontWeight = FontWeight.Bold)
-//                    Text(
-//                        text = viewModel.contacto.observaciones,
-//                        modifier = Modifier.padding(10.dp)
-//                    )
-//                }
-//
-//
-//            }
+            TextField(
+                value = viewModel.email,
+                onValueChange = { viewModel.getEmail(it) },
+                label = {
+                    if (viewModel.email.isEmpty()) {
+                        Text("email", style = TextStyle(fontSize = 14.sp))
+                    }else{
+                        Text("email", style = TextStyle(fontSize = 12.sp), color = colorAzul)
+                    }
+                },
+                textStyle = TextStyle(fontSize = 16.sp),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(55.dp)
+                    .padding(horizontal = 10.dp)
+            )
+            Spacer(modifier = Modifier.size(2.dp))
+
+            TextField(
+                value = viewModel.cumpleaños,
+                onValueChange = { viewModel.getCumpleanhos(it) },
+                label = {
+                    if (viewModel.cumpleaños.isEmpty()) {
+                        Text("Cumpleaños", style = TextStyle(fontSize = 14.sp))
+                    }else{
+                        Text("Cumpleaños", style = TextStyle(fontSize = 12.sp), color = colorAzul)
+                    }
+                },
+                textStyle = TextStyle(fontSize = 16.sp),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(55.dp)
+                    .padding(horizontal = 10.dp)
+            )
+            Spacer(modifier = Modifier.size(2.dp))
+
+            TextField(
+                value = viewModel.observaciones,
+                onValueChange = { viewModel.getObservaciones(it) },
+                label = {
+                    if (viewModel.observaciones.isEmpty()) {
+                        Text("Observaciones", style = TextStyle(fontSize = 14.sp))
+                    }else{
+                        Text("Observaciones", style = TextStyle(fontSize = 12.sp), color = colorAzul)
+                    }
+                },
+                textStyle = TextStyle(fontSize = 16.sp),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .padding(horizontal = 10.dp)
+            )
+            Spacer(modifier = Modifier.size(10.dp))
 
 
-//
+
 
 
         }
 
     }
 }
+
+
