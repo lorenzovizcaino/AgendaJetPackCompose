@@ -8,13 +8,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.BottomAppBar
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -38,11 +42,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.antonio.agendajetpackcompose.R
 import com.antonio.agendajetpackcompose.ui.miscompose.myTextField
 import com.antonio.agendajetpackcompose.ui.navigation.Screens
 import com.antonio.agendajetpackcompose.ui.viewmodel.AgendaViewModel
@@ -54,37 +61,36 @@ fun AgendaAnhadirContacto(navController: NavHostController, viewModel: AgendaVie
 
     Scaffold(
         topBar = {
-            MyTopBar3(navController,viewModel)
+            MyTopBar3(navController, viewModel)
         },
-        content = {padding ->
+        content = { padding ->
             ContenidoDetalleAnhadir(navController, viewModel)
         },
 
 
-    )
-
-
+        )
 
 
 }
 
 
-
 @Composable
-fun MyTopBar3(navController: NavHostController,
-              viewModel: AgendaViewModel,
-              backgroundColor: Color = Color(10, 48, 100),//azul
-              contentColor: Color = Color(232, 18, 36),//rojo
-              elevation: Dp = AppBarDefaults.TopAppBarElevation
+fun MyTopBar3(
+    navController: NavHostController,
+    viewModel: AgendaViewModel,
+    backgroundColor: Color = Color(10, 48, 100),//azul
+    contentColor: Color = Color(232, 18, 36),//rojo
+    elevation: Dp = AppBarDefaults.TopAppBarElevation
 ) {
-    val context= LocalContext.current
+    val context = LocalContext.current
 
-    val colorRojo= Color(232, 18, 36)
+    val colorRojo = Color(232, 18, 36)
     TopAppBar(
 
         navigationIcon = {
-            IconButton(onClick = {navController.navigate(route = Screens.Agenda.route)}) {
-                Icon(imageVector = Icons.Filled.ArrowBack,
+            IconButton(onClick = { navController.navigate(route = Screens.Agenda.route) }) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Ir hacia atras",
                     tint = colorRojo,
                     modifier = Modifier.size(60.dp)
@@ -92,9 +98,15 @@ fun MyTopBar3(navController: NavHostController,
             }
 
 
-
         },
-        title = { Text("Agenda F.C. Barcelona", color = colorRojo, fontWeight = FontWeight.Bold, fontSize = 20.sp) },
+        title = {
+            Text(
+                "Agenda F.C. Barcelona",
+                color = colorRojo,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            )
+        },
 
         backgroundColor = backgroundColor,
         contentColor = contentColor,
@@ -105,6 +117,7 @@ fun MyTopBar3(navController: NavHostController,
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaViewModel) {
     val colorRojo = Color(232, 18, 36)
@@ -117,7 +130,7 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
     ) {
         Card(
             border = BorderStroke(2.dp, colorRojo),
-            colors= CardDefaults.cardColors(containerColor = colorAmarillo),
+            colors = CardDefaults.cardColors(containerColor = colorAmarillo),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(vertical = 75.dp, horizontal = 16.dp)
@@ -129,65 +142,85 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
             ) {
                 Column(
                     Modifier
-                        .weight(1f)
-                        .padding(top = 30.dp, start = 10.dp)
-                        .height(160.dp),
+                        .weight(1.2f)
+                        .padding(top = 10.dp, start = 10.dp),
+                    // .height(160.dp),
                     verticalArrangement = Arrangement.SpaceEvenly
                 )
                 {
 
+                    TextField(
+                        value = viewModel.nombre,
+                        onValueChange = { viewModel.getNombre(it) },
+                        label = {
+                            if (viewModel.nombre.isEmpty()) {
+                                Text("Nombre", style = TextStyle(fontSize = 10.sp))
+                            }
+                        },
+                        textStyle = TextStyle(fontSize = 12.sp),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                        modifier = Modifier
+                            .width(180.dp)
+                            .height(45.dp)
+                    )
+                    Spacer(modifier = Modifier.size(2.dp))
 
-                    myTextField(
-                        number = viewModel.nombre,
-                        function = { viewModel.getNombre(it) },
-                        texto = "Nombre")
-//                    Text(
-//                        text = viewModel.contacto.nombre,
-//                        color = colorRojo,
-//                        fontSize = 25.sp,
-//                        fontWeight = FontWeight.Bold
-//                    )
+                    TextField(
+                        value = viewModel.apellidos,
+                        onValueChange = { viewModel.getApellidos(it) },
+                        label = {
+                            if (viewModel.apellidos.isEmpty()) {
+                                Text("Apellidos", style = TextStyle(fontSize = 10.sp))
+                            }
+                        },
+                        textStyle = TextStyle(fontSize = 12.sp),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                        modifier = Modifier
+                            .width(180.dp)
+                            .height(45.dp)
+                    )
+                    Spacer(modifier = Modifier.size(2.dp))
+                    TextField(
+                        value = viewModel.telefonoFijo,
+                        onValueChange = { viewModel.getTelefonoFijo(it) },
+                        label = {
+                            if (viewModel.telefonoFijo.isEmpty()) {
+                                Text("Telefono fijo", style = TextStyle(fontSize = 10.sp))
+                            }
+                        },
+                        textStyle = TextStyle(fontSize = 12.sp),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        modifier = Modifier
+                            .width(180.dp)
+                            .height(45.dp)
+                    )
+                    Spacer(modifier = Modifier.size(2.dp))
+                    TextField(
+                        value = viewModel.telefonoMovil,
+                        onValueChange = { viewModel.getTelefonoMovil(it) },
+                        label = {
+                            if (viewModel.telefonoMovil.isEmpty()) {
+                                Text("Telefono movil", style = TextStyle(fontSize = 10.sp))
+                            }
+                        },
+                        textStyle = TextStyle(fontSize = 12.sp),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        modifier = Modifier
+                            .width(180.dp)
+                            .height(45.dp)
+                    )
 
-//                    Text(
-//                        text = viewModel.contacto.apellidos,
-//                        color = colorAzul,
-//                        fontSize = 25.sp,
-//                        fontWeight = FontWeight.Bold
-//                    )
-
-//                    Row() {
-//                        Icon(
-//                            imageVector = Icons.Filled.Call,
-//                            contentDescription = "telefonoFijo",
-//                            tint = colorRojo,
-//                            modifier = Modifier.size(30.dp)
-//                        )
-//                        Text(text = viewModel.contacto.telefonoFijo, fontSize = 20.sp)
-//                    }
-//                    Row() {
-//                        Icon(
-//                            imageVector = Icons.Filled.PhoneAndroid,
-//                            contentDescription = "telefonoMovil",
-//                            tint = colorAzul,
-//                            modifier = Modifier.size(30.dp)
-//                        )
-//                        Text(
-//                            text = viewModel.contacto.telefonoMovil,
-//                            fontSize = 20.sp,
-//                            modifier = Modifier.padding(top = 5.dp)
-//                        )
-//                    }
 
                 }
-//                Image(
-//                    alignment = Alignment.CenterEnd,
-//                    painter = painterResource(id = viewModel.contacto.foto),
-//                    contentDescription = "foto",
-//                    modifier = Modifier
-//                        .size(200.dp)
-//                        .weight(1f)
-//
-//                )
+                Image(
+                    alignment = Alignment.CenterEnd,
+                    painter = painterResource(R.drawable.jugadordesconocido),
+                    contentDescription = "foto",
+                    modifier = Modifier
+                        .size(200.dp)
+                        .weight(0.9f)
+
+                )
 
             }
 //            Row(){
@@ -273,8 +306,6 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
 //
 //
 //            }
-
-
 
 
 //
