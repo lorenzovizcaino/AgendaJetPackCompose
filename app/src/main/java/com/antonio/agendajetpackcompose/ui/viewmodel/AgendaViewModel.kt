@@ -264,7 +264,7 @@ class AgendaViewModel {
 //    }
 
     fun guardarListaEnFichero(context: Context) {
-        var archivo = File(context.filesDir, "contactos7.dat")
+        var archivo = File(context.filesDir, "contactos8.dat")
         val rutaArchivo=archivo.absolutePath
         println("la ruta del archivo es: $rutaArchivo")
         if(!archivo.exists()){
@@ -304,7 +304,7 @@ class AgendaViewModel {
     }
     fun guardarContactoEnFichero(context: Context,contactoFinal: ContactosFinales){
         try{
-            var archivo = File(context.filesDir, "contactos7.dat")
+            var archivo = File(context.filesDir, "contactos8.dat")
             //val objectOutputStream = ObjectOutputStream(FileOutputStream(archivo,true))
             val objectOutputStream = object : ObjectOutputStream(FileOutputStream(archivo,true)) {
                 override fun writeStreamHeader() {}  //para no sobreescribir la cabecera del archivo
@@ -323,7 +323,7 @@ class AgendaViewModel {
     }
 
     fun leerContactosArchivo(context: Context): MutableList<ContactosFinales> {
-        var archivo = File(context.filesDir, "contactos7.dat")
+        var archivo = File(context.filesDir, "contactos8.dat")
         listaContactosLeidos.clear()
         listaContactosLeidos = deserializarObjeto(archivo)
         return listaContactosLeidos
