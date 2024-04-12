@@ -122,12 +122,13 @@ fun MyTopBar3(
             IconButton(onClick = {
                 println(viewModel.nombre)
                 println(viewModel.apellidos)
+                viewModel.getTelefonoFijo("")
                 viewModel.getFoto(R.drawable.jugadordesconocido)
                 var fotoByteArrays = viewModel.obtenerBytesDeDrawable(context, viewModel.foto)
                 println(viewModel.CalcularId())
                 viewModel.getContactoFinal(
                     ContactosFinales(
-                        viewModel.CalcularId()+1,
+                        viewModel.CalcularId() + 1,
                         viewModel.nombre,
                         viewModel.apellidos,
                         viewModel.direccion,
@@ -174,6 +175,7 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
     val colorRojo = Color(232, 18, 36)
     val colorAzul = Color(10, 48, 100)
     val colorAmarillo = Color(235, 203, 73)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -268,6 +270,8 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                             .height(55.dp),
                         singleLine = true
                     )
+
+
                     Spacer(modifier = Modifier.size(2.dp))
                     TextField(
                         value = viewModel.telefonoMovil,
