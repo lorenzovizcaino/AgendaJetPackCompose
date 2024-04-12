@@ -23,11 +23,13 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Shapes
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowLeft
 import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.PhoneAndroid
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material3.Button
@@ -57,6 +59,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.antonio.agendajetpackcompose.R
 import com.antonio.agendajetpackcompose.ui.miscompose.myTextField
+import com.antonio.agendajetpackcompose.ui.model.ContactosFinales
 import com.antonio.agendajetpackcompose.ui.navigation.Screens
 import com.antonio.agendajetpackcompose.ui.viewmodel.AgendaViewModel
 import org.w3c.dom.Text
@@ -114,6 +117,47 @@ fun MyTopBar3(
                 fontSize = 20.sp
             )
         },
+        actions = {
+
+            IconButton(onClick = {
+                println(viewModel.nombre)
+                println(viewModel.apellidos)
+                viewModel.getFoto(R.drawable.jugadordesconocido)
+                var fotoByteArrays = viewModel.obtenerBytesDeDrawable(context, viewModel.foto)
+                println(viewModel.CalcularId())
+                viewModel.getContactoFinal(
+                    ContactosFinales(
+                        viewModel.CalcularId()+1,
+                        viewModel.nombre,
+                        viewModel.apellidos,
+                        viewModel.direccion,
+                        viewModel.codigoPostal,
+                        viewModel.ciudad,
+                        viewModel.provincia,
+                        viewModel.telefonoFijo,
+                        viewModel.telefonoMovil,
+                        viewModel.email,
+                        viewModel.cumpleaños,
+                        viewModel.observaciones,
+                        fotoByteArrays
+                    )
+                )
+                println("aqui")
+
+                viewModel.guardarContactoEnFichero(context, viewModel.contactofinal)
+                println("aqui2")
+
+            }) {
+                Icon(
+                    imageVector = Icons.Filled.Save,
+                    contentDescription = "guardar contacto",
+                    tint = colorRojo,
+                    modifier = Modifier.size(70.dp)
+                )
+            }
+
+
+        },
 
         backgroundColor = backgroundColor,
         contentColor = contentColor,
@@ -141,7 +185,7 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 70.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
-              //  .padding(top=75.dp, bottom = 16.dp, start = 16.dp,end=16.dp)
+            //  .padding(top=75.dp, bottom = 16.dp, start = 16.dp,end=16.dp)
 
         ) {
             Row(
@@ -164,15 +208,20 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                         label = {
                             if (viewModel.nombre.isEmpty()) {
                                 Text("Nombre", style = TextStyle(fontSize = 14.sp))
-                            }else{
-                                Text("Nombre", style = TextStyle(fontSize = 12.sp), color = colorAzul)
+                            } else {
+                                Text(
+                                    "Nombre",
+                                    style = TextStyle(fontSize = 12.sp),
+                                    color = colorAzul
+                                )
                             }
                         },
                         textStyle = TextStyle(fontSize = 16.sp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         modifier = Modifier
                             .width(180.dp)
-                            .height(55.dp)
+                            .height(55.dp),
+                        singleLine = true
                     )
                     Spacer(modifier = Modifier.size(2.dp))
 
@@ -182,15 +231,20 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                         label = {
                             if (viewModel.apellidos.isEmpty()) {
                                 Text("Apellidos", style = TextStyle(fontSize = 14.sp))
-                            }else{
-                                Text("Apellidos", style = TextStyle(fontSize = 12.sp), color = colorAzul)
+                            } else {
+                                Text(
+                                    "Apellidos",
+                                    style = TextStyle(fontSize = 12.sp),
+                                    color = colorAzul
+                                )
                             }
                         },
                         textStyle = TextStyle(fontSize = 16.sp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         modifier = Modifier
                             .width(180.dp)
-                            .height(55.dp)
+                            .height(55.dp),
+                        singleLine = true
                     )
                     Spacer(modifier = Modifier.size(2.dp))
                     TextField(
@@ -199,15 +253,20 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                         label = {
                             if (viewModel.telefonoFijo.isEmpty()) {
                                 Text("Telefono fijo", style = TextStyle(fontSize = 14.sp))
-                            }else{
-                                Text("Telefono fijo", style = TextStyle(fontSize = 12.sp), color = colorAzul)
+                            } else {
+                                Text(
+                                    "Telefono fijo",
+                                    style = TextStyle(fontSize = 12.sp),
+                                    color = colorAzul
+                                )
                             }
                         },
                         textStyle = TextStyle(fontSize = 16.sp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier
                             .width(180.dp)
-                            .height(55.dp)
+                            .height(55.dp),
+                        singleLine = true
                     )
                     Spacer(modifier = Modifier.size(2.dp))
                     TextField(
@@ -216,15 +275,20 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                         label = {
                             if (viewModel.telefonoMovil.isEmpty()) {
                                 Text("Telefono movil", style = TextStyle(fontSize = 14.sp))
-                            }else{
-                                Text("Telefono movil", style = TextStyle(fontSize = 12.sp), color = colorAzul)
+                            } else {
+                                Text(
+                                    "Telefono movil",
+                                    style = TextStyle(fontSize = 12.sp),
+                                    color = colorAzul
+                                )
                             }
                         },
                         textStyle = TextStyle(fontSize = 16.sp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier
                             .width(180.dp)
-                            .height(55.dp)
+                            .height(55.dp),
+                        singleLine = true
                     )
 
 
@@ -236,24 +300,30 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                     verticalArrangement = Arrangement.SpaceAround,
                     horizontalAlignment = Alignment.CenterHorizontally
 
-                    ){
+                ) {
                     Image(
                         //alignment = Alignment.CenterEnd,
                         painter = painterResource(R.drawable.jugadordesconocido),
                         contentDescription = "foto",
 
 
-                    )
+                        )
                     Spacer(modifier = Modifier.size(15.dp))
-                    Button(onClick = {  },
+                    Button(
+                        onClick = { },
                         shape = RectangleShape,
-                        modifier=Modifier.fillMaxWidth().height(50.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = colorAzul, contentColor = colorRojo)
-                        ){
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorAzul,
+                            contentColor = colorRojo
+                        )
+                    ) {
                         Text(text = "Elegir Foto", fontSize = 18.sp)
                     }
                 }
-                
+
 
             }
             Spacer(modifier = Modifier.size(2.dp))
@@ -263,7 +333,7 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                 label = {
                     if (viewModel.direccion.isEmpty()) {
                         Text("Dirección", style = TextStyle(fontSize = 14.sp))
-                    }else{
+                    } else {
                         Text("Dirección", style = TextStyle(fontSize = 12.sp), color = colorAzul)
                     }
                 },
@@ -272,20 +342,22 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp)
-                    .padding(horizontal = 10.dp)
+                    .padding(horizontal = 10.dp),
+                singleLine = true
             )
 
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 2.dp, horizontal = 8.dp)){
+                    .padding(vertical = 2.dp, horizontal = 8.dp)
+            ) {
                 TextField(
                     value = viewModel.codigoPostal,
                     onValueChange = { viewModel.getCodigoPostal(it) },
                     label = {
                         if (viewModel.codigoPostal.isEmpty()) {
                             Text("C.P.", style = TextStyle(fontSize = 14.sp))
-                        }else{
+                        } else {
                             Text("C.P.", style = TextStyle(fontSize = 12.sp), color = colorAzul)
                         }
                     },
@@ -294,7 +366,8 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                     modifier = Modifier
                         .weight(0.5f)
                         .height(55.dp)
-                        .padding(horizontal = 2.dp)
+                        .padding(horizontal = 2.dp),
+                    singleLine = true
                 )
 
                 TextField(
@@ -303,7 +376,7 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                     label = {
                         if (viewModel.ciudad.isEmpty()) {
                             Text("Ciudad", style = TextStyle(fontSize = 14.sp))
-                        }else{
+                        } else {
                             Text("Ciudad", style = TextStyle(fontSize = 12.sp), color = colorAzul)
                         }
                     },
@@ -312,7 +385,8 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                     modifier = Modifier
                         .weight(1f)
                         .height(55.dp)
-                        .padding(horizontal = 2.dp)
+                        .padding(horizontal = 2.dp),
+                    singleLine = true
                 )
             }
 
@@ -322,7 +396,7 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                 label = {
                     if (viewModel.provincia.isEmpty()) {
                         Text("Provincia", style = TextStyle(fontSize = 14.sp))
-                    }else{
+                    } else {
                         Text("Provincia", style = TextStyle(fontSize = 12.sp), color = colorAzul)
                     }
                 },
@@ -331,7 +405,8 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp)
-                    .padding(horizontal = 10.dp)
+                    .padding(horizontal = 10.dp),
+                singleLine = true
             )
             Spacer(modifier = Modifier.size(2.dp))
 
@@ -341,7 +416,7 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                 label = {
                     if (viewModel.email.isEmpty()) {
                         Text("email", style = TextStyle(fontSize = 14.sp))
-                    }else{
+                    } else {
                         Text("email", style = TextStyle(fontSize = 12.sp), color = colorAzul)
                     }
                 },
@@ -350,7 +425,8 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp)
-                    .padding(horizontal = 10.dp)
+                    .padding(horizontal = 10.dp),
+                singleLine = true
             )
             Spacer(modifier = Modifier.size(2.dp))
 
@@ -360,7 +436,7 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                 label = {
                     if (viewModel.cumpleaños.isEmpty()) {
                         Text("Cumpleaños", style = TextStyle(fontSize = 14.sp))
-                    }else{
+                    } else {
                         Text("Cumpleaños", style = TextStyle(fontSize = 12.sp), color = colorAzul)
                     }
                 },
@@ -369,7 +445,8 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp)
-                    .padding(horizontal = 10.dp)
+                    .padding(horizontal = 10.dp),
+                singleLine = true
             )
             Spacer(modifier = Modifier.size(2.dp))
 
@@ -379,8 +456,12 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                 label = {
                     if (viewModel.observaciones.isEmpty()) {
                         Text("Observaciones", style = TextStyle(fontSize = 14.sp))
-                    }else{
-                        Text("Observaciones", style = TextStyle(fontSize = 12.sp), color = colorAzul)
+                    } else {
+                        Text(
+                            "Observaciones",
+                            style = TextStyle(fontSize = 12.sp),
+                            color = colorAzul
+                        )
                     }
                 },
                 textStyle = TextStyle(fontSize = 16.sp),
@@ -391,9 +472,6 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                     .padding(horizontal = 10.dp)
             )
             Spacer(modifier = Modifier.size(10.dp))
-
-
-
 
 
         }

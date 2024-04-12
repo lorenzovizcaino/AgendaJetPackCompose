@@ -132,7 +132,7 @@ class AgendaViewModel {
             R.drawable.ferran_torres
         ),
         Contactos(
-            7,
+            8,
             "Pedro",
             "Gonzalez Lopez",
             "Carrer Petritxol 76",
@@ -197,12 +197,22 @@ class AgendaViewModel {
 
 
 
+
+
 //    var listaContactosParaUtilizarApp = mutableListOf<Contactos>()
 //        private set
 //
 //    fun getListaContactosParaUtilizarApp(): MutableList<Contactos> {
 //        return listaContactosParaUtilizarApp
 //    }
+
+    fun getContactoFinal(contactoFinal:ContactosFinales){
+        this.contactofinal=contactoFinal
+    }
+
+    fun getFoto(foto:Int){
+        this.foto=foto
+    }
 
 
     fun getNombre(nombre: String) {
@@ -254,7 +264,9 @@ class AgendaViewModel {
 //    }
 
     fun guardarListaEnFichero(context: Context) {
-        var archivo = File(context.filesDir, "contactos3.dat")
+        var archivo = File(context.filesDir, "contactos7.dat")
+        val rutaArchivo=archivo.absolutePath
+        println("la ruta del archivo es: $rutaArchivo")
         if(!archivo.exists()){
             val objectOutputStream = ObjectOutputStream(FileOutputStream(archivo))
             var contador = 0
@@ -290,13 +302,28 @@ class AgendaViewModel {
         }
 
     }
+    fun guardarContactoEnFichero(context: Context,contactoFinal: ContactosFinales){
+        try{
+            var archivo = File(context.filesDir, "contactos7.dat")
+            //val objectOutputStream = ObjectOutputStream(FileOutputStream(archivo,true))
+            val objectOutputStream = object : ObjectOutputStream(FileOutputStream(archivo,true)) {
+                override fun writeStreamHeader() {}  //para no sobreescribir la cabecera del archivo
+            }
+            serializarObjeto(contactoFinal, objectOutputStream)
+            objectOutputStream.close()
+            println("Objeto agregado correctamente al archivo.")
+        } catch (ex: IOException) {
+            println("Error al escribir el objeto en el archivo: ${ex.message}")
+        }
+
+    }
 
     fun serializarObjeto(objeto: ContactosFinales, objectOutputStream: ObjectOutputStream) {
         objectOutputStream.writeObject(objeto)
     }
 
     fun leerContactosArchivo(context: Context): MutableList<ContactosFinales> {
-        var archivo = File(context.filesDir, "contactos3.dat")
+        var archivo = File(context.filesDir, "contactos7.dat")
         listaContactosLeidos.clear()
         listaContactosLeidos = deserializarObjeto(archivo)
         return listaContactosLeidos
@@ -315,6 +342,7 @@ class AgendaViewModel {
                     val contacto = objectInputStream.readObject()
                     if (contacto is ContactosFinales) {
                         listaContactosLeidos.add(contacto)
+                        println(contacto.nombre)
                     } else {
                         break;
                     }
@@ -335,7 +363,7 @@ class AgendaViewModel {
     }
 
 
-    private fun obtenerBytesDeDrawable(context: Context, @DrawableRes foto: Int): ByteArray {
+    fun obtenerBytesDeDrawable(context: Context, @DrawableRes foto: Int): ByteArray {
         val drawable = ContextCompat.getDrawable(context, foto)
         val bitmap = drawable?.toBitmap() // Convertir el drawable en un bitmap
         val stream = ByteArrayOutputStream()
@@ -416,6 +444,11 @@ class AgendaViewModel {
         } else {
             contactofinal = listaContactosLeidos[indice + 1]
         }
+    }
+
+    fun CalcularId():Int{
+        return listaContactosLeidos.maxOf { it.id }
+
     }
 
 
