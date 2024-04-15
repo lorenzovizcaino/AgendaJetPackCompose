@@ -27,6 +27,21 @@ class AgendaViewModel {
 
     var lista = mutableListOf<Contactos>(
         Contactos(
+            0,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            R.drawable.jugadordesconocido
+        ),
+        Contactos(
             1,
             "Marc-André",
             "Ter Stegen",
@@ -195,7 +210,7 @@ class AgendaViewModel {
     var listaContactosLeidos = mutableListOf<ContactosFinales>()
         private set
 
-    val nombreArchivo="contactos8.dat"
+    val nombreArchivo="contactos9.dat"
 
 
 
@@ -431,7 +446,7 @@ class AgendaViewModel {
 //    }
 
     fun IrInicio() {
-        contactofinal = listaContactosLeidos.first()
+        contactofinal = listaContactosLeidos[1]
     }
 
     fun IrFinal() {

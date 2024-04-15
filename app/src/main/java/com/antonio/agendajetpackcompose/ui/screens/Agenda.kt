@@ -153,67 +153,82 @@ fun ItemContactos(navController: NavHostController,viewModel: AgendaViewModel, c
     }
     //val imageBitmap= contacto.foto?.let { viewModel.ByteArrayToImage(it) }
     //se transforma ByteArray a imageBitMap para poder utilizar la foto en el Image()
+    if(contacto.id!=0) {
+        Card(border = BorderStroke(2.dp, colorRojo), modifier = Modifier
+            .fillMaxWidth()
 
-    Card(border = BorderStroke(2.dp, colorRojo), modifier = Modifier
-        .fillMaxWidth()
+            .clickable { onItemSelected() }
+            .padding(horizontal = 8.dp, vertical = 2.dp)) {
 
-        .clickable { onItemSelected() }
-        .padding(horizontal = 8.dp, vertical = 2.dp)) {
-
-        Row() {
-            imageBitmap?.let {
-                Image(
-                    bitmap = it,
-                    contentDescription = "foto contacto",
-                    modifier = Modifier.size(90.dp)
-                )
-            }
-            Column(modifier = Modifier.padding(5.dp)) {
-                Text(text = contacto.nombre + " " + contacto.apellidos,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
-                Row(modifier=Modifier.fillMaxWidth().height(30.dp), verticalAlignment = Alignment.CenterVertically){
-                    Icon(imageVector = Icons.Filled.Call,
-                        contentDescription = "telefonoFijo",
-                        tint = colorRojo
+            Row() {
+                imageBitmap?.let {
+                    Image(
+                        bitmap = it,
+                        contentDescription = "foto contacto",
+                        modifier = Modifier.size(90.dp)
                     )
-                    Text(text = contacto.telefonoFijo, fontSize = 18.sp)
-                    IconButton(onClick = {
-                        viewModel.setaContactoFinales(contacto)
-                        viewModel.borrarContacto(context, viewModel.contactofinal)
-                        navController.navigate(route=Screens.Agenda.route)
-
-                    }, modifier = Modifier.padding(start=120.dp)) {
-                        Icon(imageVector = Icons.Filled.Delete,
-                            contentDescription = "Borrar",
-                            tint = Color.Black,
-
+                }
+                Column(modifier = Modifier.padding(5.dp)) {
+                    Text(
+                        text = contacto.nombre + " " + contacto.apellidos,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth().height(30.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Call,
+                            contentDescription = "telefonoFijo",
+                            tint = colorRojo
                         )
+                        Text(text = contacto.telefonoFijo, fontSize = 18.sp)
+                        IconButton(onClick = {
+                            viewModel.setaContactoFinales(contacto)
+                            viewModel.borrarContacto(context, viewModel.contactofinal)
+                            navController.navigate(route = Screens.Agenda.route)
+
+                        }, modifier = Modifier.padding(start = 120.dp)) {
+                            Icon(
+                                imageVector = Icons.Filled.Delete,
+                                contentDescription = "Borrar",
+                                tint = Color.Black,
+
+                                )
+                        }
+
+
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth().height(30.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        Icon(
+                            imageVector = Icons.Filled.PhoneAndroid,
+                            contentDescription = "telefonoMovil",
+                            tint = colorAzul
+                        )
+                        Text(text = contacto.telefonoMovil, fontSize = 18.sp)
+                        IconButton(
+                            onClick = { /*TODO*/ },
+                            modifier = Modifier.padding(start = 120.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Edit,
+                                contentDescription = "Editar",
+                                tint = Color.Black,
+
+                                )
+                        }
                     }
 
 
                 }
-
-                Row(modifier=Modifier.fillMaxWidth().height(30.dp), verticalAlignment = Alignment.CenterVertically){
-
-                    Icon(imageVector = Icons.Filled.PhoneAndroid,
-                        contentDescription = "telefonoMovil",
-                        tint = colorAzul
-                    )
-                    Text(text = contacto.telefonoMovil, fontSize = 18.sp)
-                    IconButton(onClick = { /*TODO*/ }, modifier = Modifier.padding(start=120.dp)) {
-                        Icon(imageVector = Icons.Filled.Edit,
-                            contentDescription = "Editar",
-                            tint = Color.Black,
-
-                            )
-                    }
-                }
-
-
             }
-        }
 
+        }
     }
 }
