@@ -343,6 +343,7 @@ class AgendaViewModel {
         var archivo = File(context.filesDir, nombreArchivo)
         listaContactosLeidos.clear()
         listaContactosLeidos = deserializarObjeto(archivo)
+        listaContactosLeidos.sortBy { it.apellidos }
         return listaContactosLeidos
     }
 
