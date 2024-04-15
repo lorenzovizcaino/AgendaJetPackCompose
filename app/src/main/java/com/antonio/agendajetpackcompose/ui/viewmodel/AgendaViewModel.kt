@@ -195,6 +195,8 @@ class AgendaViewModel {
     var listaContactosLeidos = mutableListOf<ContactosFinales>()
         private set
 
+    val nombreArchivo="contactos8.dat"
+
 
 
 
@@ -264,7 +266,7 @@ class AgendaViewModel {
 //    }
 
     fun guardarListaEnFichero(context: Context) {
-        var archivo = File(context.filesDir, "contactos8.dat")
+        var archivo = File(context.filesDir, nombreArchivo)
         val rutaArchivo=archivo.absolutePath
         println("la ruta del archivo es: $rutaArchivo")
         if(!archivo.exists()){
@@ -294,7 +296,7 @@ class AgendaViewModel {
 
                 // Serializar objeto
                 serializarObjeto(contactoFinal, objectOutputStream)
-                println(contador)
+
 
 
             }
@@ -304,7 +306,7 @@ class AgendaViewModel {
     }
     fun guardarContactoEnFichero(context: Context,contactoFinal: ContactosFinales){
         try{
-            var archivo = File(context.filesDir, "contactos8.dat")
+            var archivo = File(context.filesDir, nombreArchivo)
             //val objectOutputStream = ObjectOutputStream(FileOutputStream(archivo,true))
             val objectOutputStream = object : ObjectOutputStream(FileOutputStream(archivo,true)) {
                 override fun writeStreamHeader() {}  //para no sobreescribir la cabecera del archivo
@@ -323,10 +325,32 @@ class AgendaViewModel {
     }
 
     fun leerContactosArchivo(context: Context): MutableList<ContactosFinales> {
-        var archivo = File(context.filesDir, "contactos8.dat")
+        var archivo = File(context.filesDir, nombreArchivo)
         listaContactosLeidos.clear()
         listaContactosLeidos = deserializarObjeto(archivo)
         return listaContactosLeidos
+    }
+
+    fun borrarContacto(context: Context, contactoFinal: ContactosFinales){
+        println(contactoFinal)
+        var id=contactoFinal.id
+        //no se puede borrar con un objeto de una mutablelist mientras se esta recorriendo, por eso se utilizo el removeIf
+        //tambien se ha tenido que utilizar la variable id ya que si se comparaba en el removeIf los objetos enteros no funcionaba OK el borrado del objeto
+        listaContactosLeidos.removeIf{it.id==id}
+        escribirFichero(context)
+
+
+
+
+    }
+
+    fun escribirFichero(context: Context){
+        var archivo = File(context.filesDir, nombreArchivo)
+        val objectOutputStream = ObjectOutputStream(FileOutputStream(archivo))
+        listaContactosLeidos.forEach(){item->
+            serializarObjeto(item, objectOutputStream)
+        }
+        objectOutputStream.close()
     }
 
 
@@ -342,7 +366,7 @@ class AgendaViewModel {
                     val contacto = objectInputStream.readObject()
                     if (contacto is ContactosFinales) {
                         listaContactosLeidos.add(contacto)
-                        println(contacto.nombre)
+                       // println(contacto.nombre)
                     } else {
                         break;
                     }
@@ -450,6 +474,8 @@ class AgendaViewModel {
         return listaContactosLeidos.maxOf { it.id }
 
     }
+
+
 
 
 

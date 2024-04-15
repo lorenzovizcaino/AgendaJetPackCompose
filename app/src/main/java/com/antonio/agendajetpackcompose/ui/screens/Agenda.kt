@@ -126,8 +126,10 @@ fun Contenido(navController: NavHostController, viewModel: AgendaViewModel) {
     ) {
         items(viewModel.leerContactosArchivo(context)) {
             ItemContactos(
+                navController = navController,
                 viewModel = viewModel,
-                contacto = it
+                contacto = it,
+
             ) {
                 viewModel.setaContactoFinales(it)
                 navController.navigate(route = Screens.AgendaDetalle.route)
@@ -139,7 +141,8 @@ fun Contenido(navController: NavHostController, viewModel: AgendaViewModel) {
 }
 
 @Composable
-fun ItemContactos(viewModel: AgendaViewModel, contacto: ContactosFinales, onItemSelected: () -> Unit) {
+fun ItemContactos(navController: NavHostController,viewModel: AgendaViewModel, contacto: ContactosFinales, onItemSelected: () -> Unit) {
+    var context= LocalContext.current
     val colorRojo=Color(232, 18, 36)
     val colorAzul=Color(10, 48, 100)
 
@@ -176,7 +179,12 @@ fun ItemContactos(viewModel: AgendaViewModel, contacto: ContactosFinales, onItem
                         tint = colorRojo
                     )
                     Text(text = contacto.telefonoFijo, fontSize = 18.sp)
-                    IconButton(onClick = { /*TODO*/ }, modifier = Modifier.padding(start=120.dp)) {
+                    IconButton(onClick = {
+                        viewModel.setaContactoFinales(contacto)
+                        viewModel.borrarContacto(context, viewModel.contactofinal)
+                        navController.navigate(route=Screens.Agenda.route)
+
+                    }, modifier = Modifier.padding(start=120.dp)) {
                         Icon(imageVector = Icons.Filled.Delete,
                             contentDescription = "Borrar",
                             tint = Color.Black,

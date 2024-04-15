@@ -122,10 +122,10 @@ fun MyTopBar3(
             IconButton(onClick = {
                 println(viewModel.nombre)
                 println(viewModel.apellidos)
-                viewModel.getTelefonoFijo("")
+
                 viewModel.getFoto(R.drawable.jugadordesconocido)
                 var fotoByteArrays = viewModel.obtenerBytesDeDrawable(context, viewModel.foto)
-                println(viewModel.CalcularId())
+
                 viewModel.getContactoFinal(
                     ContactosFinales(
                         viewModel.CalcularId() + 1,
@@ -225,6 +225,7 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
                             .height(55.dp),
                         singleLine = true
                     )
+
                     Spacer(modifier = Modifier.size(2.dp))
 
                     TextField(

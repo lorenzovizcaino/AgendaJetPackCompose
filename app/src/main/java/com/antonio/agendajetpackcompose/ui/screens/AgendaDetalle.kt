@@ -17,10 +17,13 @@ import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowLeft
 import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
@@ -161,6 +164,30 @@ fun MyTopBar2(navController: NavHostController,
 
         },
         title = { Text("Agenda F.C. Barcelona", color = colorRojo, fontWeight = FontWeight.Bold, fontSize = 20.sp) },
+        actions = {
+            IconButton(onClick = {
+                    viewModel.borrarContacto(context, viewModel.contactofinal)
+                    navController.navigate(route=Screens.Agenda.route)
+
+            }) {
+                Icon(imageVector = Icons.Filled.Delete,
+                    contentDescription = "eliminar contacto",
+                    tint = colorRojo,
+                    modifier = Modifier.size(30.dp)
+                )
+            }
+
+            IconButton(onClick = {
+
+
+            }) {
+                Icon(imageVector = Icons.Filled.Edit,
+                    contentDescription = "editar contacto",
+                    tint = colorRojo,
+                    modifier = Modifier.size(30.dp)
+                )
+            }
+        },
 
         backgroundColor = backgroundColor,
         contentColor = contentColor,
