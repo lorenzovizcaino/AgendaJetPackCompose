@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.antonio.agendajetpackcompose.R
 import com.antonio.agendajetpackcompose.ui.model.Contactos
 import com.antonio.agendajetpackcompose.ui.model.ContactosFinales
@@ -171,6 +172,11 @@ class AgendaViewModel {
     var contactofinal by mutableStateOf(ContactosFinales(0, "", "", "", "", "", "", "", "", "", "", "", null))
         private set
 
+    var contactofinalAux by mutableStateOf(ContactosFinales(0, "", "", "", "", "", "", "", "", "", "", "", null))
+        private set
+
+    var id by mutableStateOf(0)
+        private set
     var nombre by mutableStateOf("")
         private set
     var apellidos by mutableStateOf("")
@@ -227,11 +233,17 @@ class AgendaViewModel {
         this.contactofinal=contactoFinal
     }
 
+    fun getContactoFinalAux(contactoFinalAux:ContactosFinales){
+        this.contactofinalAux=contactoFinalAux
+    }
+
     fun getFoto(foto:Int){
         this.foto=foto
     }
 
-
+    fun getId(id: Int) {
+        this.id=id
+    }
     fun getNombre(nombre: String) {
         this.nombre=nombre
     }
@@ -491,9 +503,52 @@ class AgendaViewModel {
 
     }
 
+    fun limpiarAtributos() {
+        getNombre("")
+        getApellidos("")
+        getTelefonoFijo("")
+        getTelefonoMovil("")
+        getDireccion("")
+        getCodigoPostal("")
+        getCiudad("")
+        getProvincia("")
+        getEmail("")
+        getCumpleanhos("")
+        getObservaciones("")
+    }
+
+    fun cargarAtributosContacto() {
+
+        getNombre(contactofinal.nombre)
+        getApellidos(contactofinal.apellidos)
+        getTelefonoFijo(contactofinal.telefonoFijo)
+        getTelefonoMovil(contactofinal.telefonoMovil)
+        getDireccion(contactofinal.Direccion)
+        getCodigoPostal(contactofinal.codigoPostal)
+        getCiudad(contactofinal.ciudad)
+        getProvincia(contactofinal.provincia)
+        getEmail(contactofinal.email)
+        getCumpleanhos(contactofinal.cumpleaños)
+        getObservaciones(contactofinal.observaciones)
+    }
+
+    fun editarContactoEnFichero(context: Context, contactofinal: ContactosFinales, contactofinalAux: ContactosFinales) {
+        try{
+            var archivo = File(context.filesDir, nombreArchivo)
+            borrarContacto(context,contactofinal)
+
+            val objectOutputStream = object : ObjectOutputStream(FileOutputStream(archivo,true)) {
+                override fun writeStreamHeader() {}  //para no sobreescribir la cabecera del archivo
+            }
+            serializarObjeto(contactofinalAux, objectOutputStream)
+            objectOutputStream.close()
+            println("Objeto agregado correctamente al archivo.")
+        } catch (ex: IOException) {
+            println("Error al escribir el objeto en el archivo: ${ex.message}")
+        }
 
 
-
+    }
 
 
 }

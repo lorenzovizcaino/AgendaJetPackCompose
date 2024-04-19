@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.antonio.agendajetpackcompose.ui.screens.Agenda
 import com.antonio.agendajetpackcompose.ui.screens.AgendaAnhadirContacto
 import com.antonio.agendajetpackcompose.ui.screens.AgendaDetalle
+import com.antonio.agendajetpackcompose.ui.screens.EditarContacto
 
 import com.antonio.agendajetpackcompose.ui.screens.Menu
 import com.antonio.agendajetpackcompose.ui.viewmodel.AgendaViewModel
@@ -33,6 +34,10 @@ fun Navigation() {
 
         composable(route = Screens.AgendaAnhadirContacto.route) {
             AgendaAnhadirContacto(navController,viewModel) //Nombre de la función composable a la que navegar
+        }
+
+        composable(route = Screens.EditarContacto.route) {
+            EditarContacto(navController,viewModel) //Nombre de la función composable a la que navegar
         }
 
 

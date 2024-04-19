@@ -6,5 +6,6 @@ sealed class Screens(val route:String) {
     object Agenda: Screens("agenda")
     object AgendaDetalle: Screens("detalle de agenda")
     object AgendaAnhadirContacto: Screens("añadir un contacto")
+    object EditarContacto: Screens("editar un contacto")
 
 }

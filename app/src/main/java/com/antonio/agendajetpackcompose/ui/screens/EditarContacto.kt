@@ -1,6 +1,5 @@
 package com.antonio.agendajetpackcompose.ui.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,20 +16,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.AppBarDefaults
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Shapes
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowLeft
-import androidx.compose.material.icons.filled.ArrowRight
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.Save
-import androidx.compose.material.icons.filled.SkipNext
-import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -57,40 +45,34 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.antonio.agendajetpackcompose.R
-import com.antonio.agendajetpackcompose.ui.miscompose.myTextField
 import com.antonio.agendajetpackcompose.ui.model.ContactosFinales
 import com.antonio.agendajetpackcompose.ui.navigation.Screens
 import com.antonio.agendajetpackcompose.ui.viewmodel.AgendaViewModel
-import org.w3c.dom.Text
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AgendaAnhadirContacto(navController: NavHostController, viewModel: AgendaViewModel) {
-
+fun EditarContacto(navController: NavHostController, viewModel: AgendaViewModel){
     Scaffold(
         topBar = {
-            MyTopBar3(navController, viewModel)
+            MyTopBar4(navController, viewModel)
         },
         content = { padding ->
-            ContenidoDetalleAnhadir(navController, viewModel)
+            ContenidoEditarContacto(navController, viewModel)
         },
 
 
         )
-
-
 }
 
 
+
 @Composable
-fun MyTopBar3(
+fun MyTopBar4(
     navController: NavHostController,
     viewModel: AgendaViewModel,
     backgroundColor: Color = Color(10, 48, 100),//azul
@@ -139,21 +121,22 @@ fun MyTopBar3(
 
         },
 
+
         backgroundColor = backgroundColor,
         contentColor = contentColor,
         elevation = elevation
 
     )
     if(showDialog){
-        MyDialogGuardarContacto(
+        MyDialogEditarContacto(
             onDismiss = { showDialog = false },
             onAccept = {
                 viewModel.getFoto(R.drawable.jugadordesconocido)
                 var fotoByteArrays = viewModel.obtenerBytesDeDrawable(context, viewModel.foto)
 
-                viewModel.getContactoFinal(
+                viewModel.getContactoFinalAux(
                     ContactosFinales(
-                        viewModel.CalcularId() + 1,
+                        viewModel.contactofinal.id,
                         viewModel.nombre,
                         viewModel.apellidos,
                         viewModel.direccion,
@@ -168,7 +151,9 @@ fun MyTopBar3(
                         fotoByteArrays
                     )
                 )
-                viewModel.guardarContactoEnFichero(context, viewModel.contactofinal)
+
+
+                viewModel.editarContactoEnFichero(context, viewModel.contactofinal,viewModel.contactofinalAux)
                 showDialog = false
                 navController.navigate(route = Screens.Agenda.route)
 
@@ -178,16 +163,18 @@ fun MyTopBar3(
     }
 
 
+
+
 }
 
 @Composable
-fun MyDialogGuardarContacto(onDismiss: () -> Unit, onAccept: () -> Unit) {
+fun MyDialogEditarContacto(onDismiss: () -> Unit, onAccept: () -> Unit) {
     val colorRojo = Color(232, 18, 36)
     val colorAzul = Color(10, 48, 100)
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = "Guardar Contacto")
+            Text(text = "Editar Contacto")
         },
         text = {
             Text(text = "¿Estás seguro de que deseas guardar este contacto?")
@@ -217,13 +204,14 @@ fun MyDialogGuardarContacto(onDismiss: () -> Unit, onAccept: () -> Unit) {
     )
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaViewModel) {
+fun ContenidoEditarContacto(navController: NavHostController, viewModel: AgendaViewModel) {
     val colorRojo = Color(232, 18, 36)
     val colorAzul = Color(10, 48, 100)
     val colorAmarillo = Color(235, 203, 73)
-    viewModel.limpiarAtributos()
+    viewModel.cargarAtributosContacto()
 
 
     Box(
@@ -533,5 +521,3 @@ fun ContenidoDetalleAnhadir(navController: NavHostController, viewModel: AgendaV
 
     }
 }
-
-

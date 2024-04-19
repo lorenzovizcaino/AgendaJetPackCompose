@@ -27,6 +27,8 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,6 +37,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,6 +51,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.antonio.agendajetpackcompose.R
+import com.antonio.agendajetpackcompose.ui.model.ContactosFinales
 import com.antonio.agendajetpackcompose.ui.navigation.Screens
 import com.antonio.agendajetpackcompose.ui.viewmodel.AgendaViewModel
 
@@ -147,7 +155,7 @@ fun MyTopBar2(navController: NavHostController,
               elevation: Dp = AppBarDefaults.TopAppBarElevation
               ) {
     val context= LocalContext.current
-
+    var showDialog by remember { mutableStateOf(false) }
     val colorRojo=Color(232, 18, 36)
     TopAppBar(
 
@@ -166,8 +174,7 @@ fun MyTopBar2(navController: NavHostController,
         title = { Text("Agenda F.C. Barcelona", color = colorRojo, fontWeight = FontWeight.Bold, fontSize = 20.sp) },
         actions = {
             IconButton(onClick = {
-                    viewModel.borrarContacto(context, viewModel.contactofinal)
-                    navController.navigate(route=Screens.Agenda.route)
+                showDialog=true
 
             }) {
                 Icon(imageVector = Icons.Filled.Delete,
@@ -178,6 +185,8 @@ fun MyTopBar2(navController: NavHostController,
             }
 
             IconButton(onClick = {
+                viewModel.setaContactoFinales(viewModel.contactofinal)
+                navController.navigate(route = Screens.EditarContacto.route)
 
 
             }) {
@@ -194,8 +203,51 @@ fun MyTopBar2(navController: NavHostController,
         elevation = elevation
 
     )
+    if(showDialog){
+        MyDialogBorrarContacto(
+            onDismiss = { showDialog = false },
+            onAccept = {
+                viewModel.borrarContacto(context, viewModel.contactofinal)
+                navController.navigate(route=Screens.Agenda.route)
 
 
+
+            }
+        )
+    }
+
+
+}
+
+@Composable
+fun MyDialogBorrarContacto(onDismiss: () -> Unit, onAccept: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(text = "Borrar Contacto")
+        },
+        text = {
+            Text(text = "¿Estás seguro de que deseas Borrar este contacto?")
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    onAccept()
+                }
+            ) {
+                Text("Aceptar")
+            }
+        },
+        dismissButton = {
+            Button(
+                onClick = {
+                    onDismiss()
+                }
+            ) {
+                Text("Cancelar")
+            }
+        }
+    )
 }
 
 @Composable
